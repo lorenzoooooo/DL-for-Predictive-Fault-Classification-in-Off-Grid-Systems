@@ -1,0 +1,17 @@
+coordinate delle variabili che hanno diversi campioni allo stesso istante di tempo
+cerca in bug con le coordinate inserite in bug_idx per trovare le sequenze sospette:
+	bug(bug_idx(1,1),bug_idx(1:2,2))
+	d=bug(1,bug_idx(1,2))
+	d1 = datetime(d,'ConvertFrom','excel')
+(3,1018)
+(3,1019)
+
+(6,1021)
+(6,1023)
+
+(9,1014)
+(9,1015)
+
+(7,7464)
+(7,7465)
+
