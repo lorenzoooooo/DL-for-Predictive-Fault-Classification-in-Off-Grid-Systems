@@ -1,6 +1,14 @@
 close all force;
 clear;
-load('risultati\t1021-t16239-t16399-t13008-t1059\mincellvoltage-panelpower-maxcellvoltage\dataset.mat');
+input('controlla che stai usando il giusto dataset!');
+load('risultati\t1021-t16239-t16399-t13008-t1059\mincellvoltage-panelpower-maxcellvoltage\6_2_26\dataset_3200_3350_3200_3350');
+
+inputSize = 4;
+numHiddenUnits =5;
+numClasses = 2;
+maxEpochs = 10;
+miniBatchSize = 25;
+miniBatchSizets = 25;
 %% 
 % Visualize the first time series in a plot. Each line corresponds to a feature.
 
@@ -57,10 +65,6 @@ ylabel("Length")
 % sequence at prediction time, for example, if you are forecasting values or predicting 
 % one time step at a time, then use an LSTM layer instead.
 
-inputSize = 4;
-numHiddenUnits =50;
-numClasses = 2;
-
 layers = [ ...
     sequenceInputLayer(inputSize)
     bilstmLayer(numHiddenUnits,'OutputMode','last')
@@ -80,22 +84,19 @@ layers = [ ...
 % on a GPU, if available, set |'ExecutionEnvironment'| to |'auto'| (this is the 
 % default value).
 
-maxEpochs = 30;
-miniBatchSize = 25;
-
 options = trainingOptions('adam', ...
     'InitialLearnRate', 0.01, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
     'ValidationData',{XVal,YVal}, ...
-    'ValidationFrequency',6, ...
+    'ValidationFrequency',9, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
     'Shuffle','never', ...
     'Verbose',1, ...
-    'OutputNetwork' ,'best-validation-loss', ...
     'Plots','training-progress')
+%     'OutputNetwork' ,'best-validation-loss', ...
 %% Train LSTM Network
 % Train the LSTM network with the specified training options by using |trainNetwork|.
 
@@ -106,7 +107,6 @@ options = trainingOptions('adam', ...
 % Load the Japanese Vowels test data. |XTest| is a cell array containing 370 
 % sequences of dimension 12 of varying length. |YTest| is a categorical vector 
 % of labels "1","2",..."9", which correspond to the nine speakers.
-
 % [XTest,YTest] = japaneseVowelsTestData;
 % XTest(1:3)
 %% 
@@ -127,7 +127,6 @@ YTest = YTest(idx);
 % classification process, set the mini-batch size to 27. To apply the same padding 
 % as the training data, specify the sequence length to be |'longest'|.
 
-miniBatchSizets = 25;
 YPred = classify(net,XTest, ...
     'MiniBatchSize',miniBatchSizets, ...
     'SequenceLength','longest');
@@ -138,7 +137,6 @@ YPred = classify(net,XTest, ...
 acc = sum(YPred == YTest)./numel(YTest)
 figure;
 conf_chart=confusionchart(YTest,YPred);
-
 
 %% salvataggio
 currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
