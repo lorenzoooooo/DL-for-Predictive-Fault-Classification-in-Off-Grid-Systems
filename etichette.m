@@ -11,7 +11,7 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
     tr.good_idx=[];
     ts.bad_idx=[];
     ts.good_idx=[];
-    
+    global proporzione;
     %passo gli indici delle sequenze che identifico come patologiche e come sane
     i_bad=[idx_b];
     i_good=[idx_g];
@@ -39,9 +39,9 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
             disp=mod(i_good(:),2)~=0;
             tr.good_idx=[i_good(pari)];                 %TrSet prende le sequenze sane con indice dispari
             ts.good_idx=[i_good(disp)];                 %TsSet prende le sequenze sane con indice pari
-            if size(tr.good_idx,2)>4*size(tr.bad_idx,2) && size(ts.good_idx,2)>4*size(ts.bad_idx,2)
-                tr.good_idx=randsample(tr.good_idx,4*size(tr.bad_idx,2));
-                ts.good_idx=randsample(ts.good_idx,4*size(ts.bad_idx,2));
+            if size(tr.good_idx,2)>proporzione*size(tr.bad_idx,2) && size(ts.good_idx,2)>proporzione*size(ts.bad_idx,2)
+                tr.good_idx=randsample(tr.good_idx,proporzione*size(tr.bad_idx,2));
+                ts.good_idx=randsample(ts.good_idx,proporzione*size(ts.bad_idx,2));
             end
             vs.good_idx=randsample(tr.good_idx,ceil(size(tr.good_idx,2)/5));
         end
@@ -51,8 +51,8 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
             disp=mod(i_good(:),2)~=0;
             tr.good_idx=[i_good(pari)];                 %TrSet prende le sequenze sane con indice dispari
             ts.good_idx=[i_good(disp)];                 %TsSet prende le sequenze sane con indice pari
-            tr.good_idx=randsample(tr.good_idx,4);
-            ts.good_idx=randsample(ts.good_idx,4);
+            tr.good_idx=randsample(tr.good_idx,proporzione);
+            ts.good_idx=randsample(ts.good_idx,proporzione);
         end
     end
     
