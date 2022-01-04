@@ -1,6 +1,7 @@
 % input('ricordati di cambiare il numero della torre nella query!');
 % query=input('scegli query:\n','s');
 % eval(query);
+% global tipo name torre; % torre è l'id della torre, name dice se la stazione contiene la stazione meteo o meno e tipo differenzia tra digil pura e digil_iotbox
 % init;
 % compattazione_mtx;
 % pulizia;
@@ -18,13 +19,13 @@
 %% inserisco i parametri
 % lasso è a durata in giorni della sequenza, span è l'intervallo tra una
 % sequenza e l'altra e in_pred è l'intervallo predittivo in ore.
-% proporzione è il rapporto tra sequenze patologiche e sane nel datast
+% proporzione è il rapporto tra sequenze patologiche e sane nel dataset
 % finale
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione;
 lasso=3;
 span=1;
 int_predizione=24*1+2;
-proporzione=2;
+proporzione=1;
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3350;
 soglia_bad_maxcellv=3200;
@@ -36,7 +37,7 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili= ["min cell voltage"; "panel power"; "max cell voltage"];
+    variabili= ["min cell voltage";"panel power";"max cell voltage"];
     sequenze=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
 %     grafico(sequenze,torre);

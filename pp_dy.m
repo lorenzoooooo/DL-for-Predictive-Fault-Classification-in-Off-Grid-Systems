@@ -96,11 +96,6 @@ for i=1:size(data,1)
     y=data{i,1}(3,:);
     panel_power(i,1) = time_stamp(1,1);
     panel_power(i,2) = trapz(time_stamp,y).*24;
-%     if tipo == "digil"
-%         panel_power(i,3)=panel_power(i,2)/36;
-%     elseif tipo == "iotbox"
-%         panel_power(i,3)=panel_power(i,2)/104;
-%     end
 end
 % for i=1:size(dhour,2)-1
 %     xmin=dhour(1,i);
