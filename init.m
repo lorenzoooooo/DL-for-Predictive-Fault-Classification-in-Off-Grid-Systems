@@ -1,12 +1,9 @@
 % t### è una tabella 
 clearvars -except sqldata;
-global name;
 name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
 load(name,name);
 var=eval(name);
-global torre;
 torre=input('numero della torre preceduto da t:','s');
-global tipo;
 if not(isfolder("iotbox"))
     mkdir("iotbox");
 end
