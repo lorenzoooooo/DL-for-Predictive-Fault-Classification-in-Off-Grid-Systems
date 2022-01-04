@@ -1,5 +1,5 @@
 function []=dataset1()
-global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
+global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione;
 tralicci=string();
 YTrain=categorical();
 XTrain={};
@@ -33,7 +33,7 @@ fclose(fileID);
 tralicci(1)=[];
 tralicci=nome_cartella(tralicci);
 features=nome_cartella(variabili);
-parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione));
+parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione));
 path=strcat('risultati\',tralicci,{'\'},features,{'\'},parametri,{'\'});
 path=string(path);
 mkdir(path);
