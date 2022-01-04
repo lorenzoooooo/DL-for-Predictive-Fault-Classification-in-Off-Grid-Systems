@@ -17,11 +17,14 @@
 
 %% inserisco i parametri
 % lasso è a durata in giorni della sequenza, span è l'intervallo tra una
-% sequenza e l'altra e in_pred è l'intervallo predittivo in ore
-global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
-lasso=6;
-span=2;
+% sequenza e l'altra e in_pred è l'intervallo predittivo in ore.
+% proporzione è il rapporto tra sequenze patologiche e sane nel datast
+% finale
+global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione;
+lasso=3;
+span=1;
 int_predizione=24*1+2;
+proporzione=2;
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3350;
 soglia_bad_maxcellv=3200;
