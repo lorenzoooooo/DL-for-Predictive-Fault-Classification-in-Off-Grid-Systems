@@ -1,5 +1,6 @@
 function [idx_b, idx_g] = sospetti (sequenze)
-global name;
+global int_predizione;
+global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
 %% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
 
 
@@ -49,8 +50,8 @@ global name;
         end
     end
 
-    mincellv.bad.soglia=3200;                                         % soglia critica patologica
-    mincellv.good.soglia=3350;                                        % soglia critica sana
+    mincellv.bad.soglia=soglia_bad_mincellv;                                         % soglia critica patologica
+    mincellv.good.soglia=soglia_good_mincellv;                                        % soglia critica sana
     for i=1:size(sequenze,1)
         if isempty(sequenze{i,1})
             continue;
@@ -62,8 +63,8 @@ global name;
     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
     mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
 
-    maxcellv.bad.soglia=3200;                                         % soglia critica patologica
-    maxcellv.good.soglia=3350;                                        % soglia critica sana
+    maxcellv.bad.soglia=soglia_bad_maxcellv;                                         % soglia critica patologica
+    maxcellv.good.soglia=soglia_good_maxcellv;                                        % soglia critica sana
     for i=1:size(sequenze,1)
         if isempty(sequenze{i,1})
             continue;
@@ -80,8 +81,8 @@ global name;
 
 idx_b=[];
 i=1;
-int_pred=26;
-int_pred=duration(int_pred,0,0);    %%facciamo conto che predico a 15 giorni
+
+int_pred=duration(int_predizione,0,0);
 for i=1:size(mincellv.bad.seq,1)
     if (~isempty(mincellv.bad.seq{i,1}) && i<size(mincellv.bad.seq,1)) || (~isempty(maxcellv.bad.seq{i,1}) && i<size(maxcellv.bad.seq,1))  || (~isempty(pp.bad.seq{i,1}) && i<size(pp.bad.seq,1))
         idx_b=[idx_b i];

@@ -1,6 +1,5 @@
-function seq_def = estrazione_sequenze(data,variabili)
+function [seq_def] = estrazione_sequenze(data,variabili)
 %% Trovo le sequenze che sono più lunghe di 30 ore
-global name;
 [dhour,d0]=mezzanotte(data(1,:));
 err=[];
 d1=duration();
@@ -27,8 +26,7 @@ for i=2:size(dhour,2)-1
 end
 panel_power= pp_dy (sequenze);
 %% creo sequenze di 6 giorni
-lasso=3;
-span=1;
+global span lasso;
 tolleranza=fix(24*lasso/10); %tolleranza sulla durata della sequenza del 10%
 treshold=(24*lasso)+tolleranza;
 treshold=hours(treshold);

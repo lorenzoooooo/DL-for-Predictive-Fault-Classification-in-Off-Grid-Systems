@@ -5,7 +5,7 @@
 % compattazione_mtx;
 % pulizia;
 % salvataggio;
-% 
+
 % global tipo;
 % if torre =="t1021" || torre =="t16399"
 %     tipo="digil";
@@ -14,6 +14,19 @@
 % end
 % global variabili; 
 
+%% inserisco i parametri
+% lasso è a durata in giorni della sequenza, span è l'intervallo tra una
+% sequenza e l'altra e in_pred è l'intervallo predittivo in ore
+global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
+lasso=6;
+span=2;
+int_predizione=24*1+2;
+soglia_bad_mincellv=3200;
+soglia_good_mincellv=3350;
+soglia_bad_maxcellv=3200;
+soglia_good_maxcellv=3350;
+
+%% estraggo e etichetto le sequenze
 fclose('all');
 fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
@@ -27,7 +40,6 @@ while ischar(a)
     [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;
-    save(addr,"XTr","YTr","XTs","YTs","XVs","YVs",'-append');
     a=fgetl(fileID);
 end
 fclose(fileID);
