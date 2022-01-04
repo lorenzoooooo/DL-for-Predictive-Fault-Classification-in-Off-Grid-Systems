@@ -13,7 +13,7 @@
 %     tipo="iotbox";
 % end
 % global variabili; 
-
+%tanto per committare
 %% inserisco i parametri
 % lasso è a durata in giorni della sequenza, span è l'intervallo tra una
 % sequenza e l'altra e in_pred è l'intervallo predittivo in ore
