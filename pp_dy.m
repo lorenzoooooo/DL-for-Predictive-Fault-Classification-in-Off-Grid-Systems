@@ -92,11 +92,9 @@ for i=1:size(data,1)
     if isempty(data{i,1})
         continue;
     end
-    time_stamp=data{i,1}(1,:);
-    y=data{i,1}(3,:);
-    panel_power(i,1) = time_stamp(1,1);
-    panel_power(i,2) = trapz(time_stamp,y).*24;
+    panel_power(i) = trapz(data{i,1}.time,data{i,1}.panelpower).*24;
 end
+%% 
 % for i=1:size(dhour,2)-1
 %     xmin=dhour(1,i);
 %     xmax=dhour(1,i+1);  

@@ -5,7 +5,7 @@ global torre;
         if isempty(sequenze{i,1})
             continue;
         end
-        plot(datetime(sequenze{i,1}(1,:),'ConvertFrom','excel'),sequenze{i,1}(2,:));
+        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.mincellvoltage);
         hold on;
     end
     hold off;
@@ -15,7 +15,7 @@ global torre;
         if isempty(sequenze{i,1})
             continue;
         end
-        plot(datetime(sequenze{i,1}(1,:),'ConvertFrom','excel'),sequenze{i,1}(3,:));
+        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.panelpower);
         hold on;
     end
     hold off;

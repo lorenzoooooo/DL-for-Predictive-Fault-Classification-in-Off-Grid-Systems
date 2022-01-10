@@ -5,7 +5,7 @@
 % init;
 % compattazione_mtx;
 % pulizia;
-% salvataggio; %ababab
+% salvataggio;
 
 % global tipo;
 % if torre =="t1021" || torre =="t16399"
@@ -27,7 +27,7 @@ span=1;
 int_predizione=24*1+2;
 proporzione=1;
 soglia_bad_mincellv=3200;
-soglia_good_mincellv=3350;
+soglia_good_mincellv=3300;
 soglia_bad_maxcellv=3200;
 soglia_good_maxcellv=3350;
 
@@ -37,10 +37,10 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili= ["min cell voltage";"panel power";"max cell voltage"];
-    sequenze=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
+    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"];
+    [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
-%     grafico(sequenze,torre);
+%     grafico(sequenze);
     sequenze=normalizzazione(data,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
     [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;

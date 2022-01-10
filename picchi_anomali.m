@@ -1,10 +1,8 @@
-function [cell_idx, mat_idx] = picchi_anomali (sequenze)
-cell_idx=[];
-mat_idx=[];
+function sequenze = picchi_anomali (sequenze)
 for i=1:size(sequenze,1)
-    anomalie=find(sequenze{i,1}(2,:)<=2000);
-    if ~isempty(anomalie)
-        cell_idx=[cell_idx; i];
-        mat_idx=[mat_idx; anomalie];
+    for j=1:size(sequenze{i,1}.mincellvoltage,2)
+        if sequenze{i,1}.mincellvoltage(j)<=2000
+            sequenze{i,1}.mincellvoltage(j)=sequenze{i,1}.mincellvoltage(j-1);  % trovo i campioni e gli assegno l'ultimo valore valido campionato
+        end
     end
 end

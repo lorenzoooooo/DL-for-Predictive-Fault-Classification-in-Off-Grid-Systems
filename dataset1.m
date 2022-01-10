@@ -32,7 +32,7 @@ fclose(fileID);
 
 tralicci(1)=[];
 tralicci=nome_cartella(tralicci);
-features=nome_cartella(variabili);
+features=nome_cartella(variabili.nome);
 parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione));
 path=strcat('risultati\',tralicci,{'\'},features,{'\'},parametri,{'\'});
 path=string(path);

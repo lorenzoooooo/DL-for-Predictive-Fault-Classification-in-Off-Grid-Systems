@@ -1,17 +1,15 @@
 function sequenze = normalizzazione(data,sequenze,variabili)
-global name;
-righe=discrimina(variabili);
 media=[];
 dev_std=[]; 
-for j=1:size(righe,2)
+for j=1:size(variabili.righe,1)
     k=j+1;
-    media(k,1)=mean(data(righe(j),:));
-    dev_std(k,1)=std(data(righe(j),:));
+    media(j,1)=mean(data(variabili.righe(j),:));
+    dev_std(j,1)=std(data(variabili.righe(j),:));
 end
 for i=1:size(sequenze,1)
-    seq=sequenze{i,1};
-    for j=2:size(seq,1)
-        seq(j,:)=(seq(j,:)-media(j,1))/dev_std(j,1);
+    for j=1:size(sequenze{i,1}.time,2)
+        for k=1:size(variabili.nb,1)
+            sequenze{i,1}.(variabili.nb(k))(j)=(sequenze{i,1}.(variabili.nb(k))(j)-media(k,1))/dev_std(k,1);
+        end
     end
-    sequenze{i,1}=seq;
 end

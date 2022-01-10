@@ -69,22 +69,22 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
             if isempty(sequenze{tr.bad_idx(b),1})
                 continue;
             end
-            XTr{k,1}=sequenze{tr.bad_idx(b),1};
+            XTr{k,1}=cell2mat(struct2cell(sequenze{tr.bad_idx(b),1}));
             YTr{k,1}='0';
             k=k+1;
         elseif ismember(j,tr.good_idx)
             [~,b]=ismember(j,tr.good_idx);
-            XTr{k,1}=sequenze{tr.good_idx(b),1};
+            XTr{k,1}=cell2mat(struct2cell(sequenze{tr.good_idx(b),1}));
             YTr{k,1}='1';
             k=k+1;
         elseif ismember(j,ts.bad_idx)
             [~,b]=ismember(j,ts.bad_idx);
-            XTs{h,1}=sequenze{ts.bad_idx(b),1};
+            XTs{h,1}=cell2mat(struct2cell(sequenze{ts.bad_idx(b),1}));
             YTs{h,1}='0';
             h=h+1;
         elseif ismember(j,ts.good_idx)
             [~,b]=ismember(j,ts.good_idx);
-            XTs{h,1}=sequenze{ts.good_idx(b),1};
+            XTs{h,1}=cell2mat(struct2cell(sequenze{ts.good_idx(b),1}));
             YTs{h,1}='1';
             h=h+1;
         end
@@ -96,12 +96,12 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
     for j=1:size(sequenze,1)
         if ismember(j,vs.bad_idx)
             [~,b]=ismember(j,vs.bad_idx);
-            XVs{k,1}=sequenze{vs.bad_idx(b),1};
+            XVs{k,1}=cell2mat(struct2cell(sequenze{vs.bad_idx(b),1}));
             YVs{k,1}='0';
             k=k+1;
         elseif ismember(j,vs.good_idx)
             [~,b]=ismember(j,vs.good_idx);
-            XVs{k,1}=sequenze{vs.good_idx(b),1};
+            XVs{k,1}=cell2mat(struct2cell(sequenze{vs.good_idx(b),1}));
             YVs{k,1}='1';
             k=k+1;
         end
