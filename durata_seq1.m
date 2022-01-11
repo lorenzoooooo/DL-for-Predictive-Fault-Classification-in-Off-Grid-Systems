@@ -6,7 +6,7 @@ notempty=[];
 for i=1:numele
     notempty(i)=~isempty(sequenze{i,1});
     if notempty(i)
-        [d1(i,1),d1(i,2)]=date_conversion(sequenze{i,1}(1,1),sequenze{i,1}(1,end));
+        [d1(i,1),d1(i,2)]=date_conversion(sequenze{i,1}.time(1),sequenze{i,1}.time(end));
         d2(i,1)=d1(i,2)-d1(i,1);
     end
 end
