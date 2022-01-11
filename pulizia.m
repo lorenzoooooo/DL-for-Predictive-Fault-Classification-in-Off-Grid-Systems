@@ -1,1 +1,1 @@
-clearvars -except variabili data torre addr sqldata name righe_var bug_idx bug fileID XTr XTs YTr YTs XVs YVs;
+clearvars -except variabili tipo data torre addr sqldata name righe_var bug_idx bug fileID XTr XTs YTr YTs XVs YVs;
