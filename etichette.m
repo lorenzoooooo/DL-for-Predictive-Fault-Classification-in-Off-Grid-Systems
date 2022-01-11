@@ -33,7 +33,7 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
         disp=mod(i_bad(:),2)~=0;
         tr.bad_idx=[i_bad(pari)];                       %TrSet prende le sequenze patologiche con indice dispari
         ts.bad_idx=[i_bad(disp)];                       %TsSet prende le sequenze patologiche con indice pari
-        vs.bad_idx=randsample(tr.bad_idx,ceil(size(tr.bad_idx,2)/5));
+        vs.bad_idx=randsample(ts.bad_idx,ceil(size(ts.bad_idx,2)/5));
         if ~isempty(i_good)                             %spartisco gli indici delle sequenze sane tra train e test
             pari=mod(i_good(:),2)==0;
             disp=mod(i_good(:),2)~=0;
@@ -43,7 +43,7 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
                 tr.good_idx=randsample(tr.good_idx,proporzione*size(tr.bad_idx,2));
                 ts.good_idx=randsample(ts.good_idx,proporzione*size(ts.bad_idx,2));
             end
-            vs.good_idx=randsample(tr.good_idx,ceil(size(tr.good_idx,2)/5));
+            vs.good_idx=randsample(ts.good_idx,ceil(size(ts.good_idx,2)/5));
         end
     else
         if ~isempty(i_good)
