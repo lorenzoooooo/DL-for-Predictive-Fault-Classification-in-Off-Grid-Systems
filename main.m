@@ -5,7 +5,7 @@
 % init;
 % compattazione_mtx;
 % pulizia;
-% salvataggio;
+% salvataggio;ababab
 
 % global tipo;
 % if torre =="t1021" || torre =="t16399"
