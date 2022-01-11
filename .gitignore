@@ -1,6 +1,6 @@
 !.gitignore
 .asv
-codice alternativo/.gitignore
-digil__iotbox-digil/.gitignore
-iotbox/.gitignore
+codice alternativo
+digil__iotbox-digil/
+iotbox/
 risultati/*
