@@ -2,7 +2,6 @@ function sequenze = normalizzazione(data,sequenze,variabili)
 media=[];
 dev_std=[]; 
 for j=1:size(variabili.righe,1)
-    k=j+1;
     media(j,1)=mean(data(variabili.righe(j),:));
     dev_std(j,1)=std(data(variabili.righe(j),:));
 end
