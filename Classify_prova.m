@@ -2,7 +2,7 @@ close all force;
 clear;
 input('controlla che stai usando il giusto dataset!');
 dataset_path='risultati\t7286_t16399_t1021\mincellvoltage_panelpower_maxcellvoltage\3_1_26_1_3\3200_3300_3250_3350\dataset';
-load(dataset_path);
+load(dataset_path, 'X*', 'Y*','path');
 
 inputSize = 4;
 numHiddenUnits =5;
@@ -84,9 +84,10 @@ layers = [ ...
 % suited for the CPU. Specify |'ExecutionEnvironment'| to be |'cpu'|. To train 
 % on a GPU, if available, set |'ExecutionEnvironment'| to |'auto'| (this is the 
 % default value).
-solvername='rmsprop';
+solvername="adam";
+lr=0.003;
 options = trainingOptions(solvername, ...
-    'InitialLearnRate', 0.004, ...
+    'InitialLearnRate', lr, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
@@ -96,7 +97,7 @@ options = trainingOptions(solvername, ...
     'SequenceLength','longest', ...
     'Shuffle','never', ...
     'Verbose',1, ...
-    'Plots','training-progress')
+    'Plots','training-progress');
 %     'OutputNetwork' ,'best-validation-loss', ...
 %% Train LSTM Network
 % Train the LSTM network with the specified training options by using |trainNetwork|.
@@ -104,35 +105,35 @@ options = trainingOptions(solvername, ...
 [net,info] = trainNetwork(XTrain,YTrain,layers,options);
 %% Test LSTM Network
 % Load the test set and classify the sequences into speakers.
-% 
-% Load the Japanese Vowels test data. |XTest| is a cell array containing 370 
-% sequences of dimension 12 of varying length. |YTest| is a categorical vector 
+%
+% Load the Japanese Vowels test data. |XTest| is a cell array containing 370
+% sequences of dimension 12 of varying length. |YTest| is a categorical vector
 % of labels "1","2",..."9", which correspond to the nine speakers.
 % [XTest,YTest] = japaneseVowelsTestData;
 % XTest(1:3)
-%% 
-% The LSTM network |net| was trained using mini-batches of sequences of similar 
-% length. Ensure that the test data is organized in the same way. Sort the test 
+%%
+% The LSTM network |net| was trained using mini-batches of sequences of similar
+% length. Ensure that the test data is organized in the same way. Sort the test
 % data by sequence length.
 
 numObservationsTest = numel(XTest);
-for i=1:numObservationsTest
-    sequence = XTest{i};
-    sequenceLengthsTest(i) = size(sequence,2);
+for k=1:numObservationsTest
+    sequence = XTest{k};
+    sequenceLengthsTest(k) = size(sequence,2);
 end
 [sequenceLengthsTest,idx] = sort(sequenceLengthsTest);
 XTest = XTest(idx);
 YTest = YTest(idx);
-%% 
-% Classify the test data. To reduce the amount of padding introduced by the 
-% classification process, set the mini-batch size to 27. To apply the same padding 
+%%
+% Classify the test data. To reduce the amount of padding introduced by the
+% classification process, set the mini-batch size to 27. To apply the same padding
 % as the training data, specify the sequence length to be |'longest'|.
 
 YPred = classify(net,XTest, ...
     'MiniBatchSize',miniBatchSizets, ...
     'SequenceLength','longest');
 
-%% 
+%%
 % Calculate the classification accuracy of the predictions.
 
 acc = sum(YPred == YTest)./numel(YTest)
@@ -141,11 +142,11 @@ conf_chart=confusionchart(YTest,YPred);
 
 %% salvataggio
 currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
-file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(options.InitialLearnRate),'_',string(round(acc,2))));
-path=strcat(path,{'\'},file,{'\'});
-mkdir(path);
-savefig(currentfig,strcat(path,'training_progress_',solvername,'.fig'));
-savefig(strcat(path,'confusion_chart_',solvername));
-save(strcat(path,'risultati_',solvername));
+file=strcat(strcat(solvername,'_',string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(options.InitialLearnRate),'_',string(round(acc,2))));
+path_def=strcat(path,{'\'},file,{'\'});
+mkdir(path_def);
+savefig(currentfig,strcat(path_def,'training_progress.fig'));
+savefig(strcat(path_def,'confusion_chart'));
+save(strcat(path_def,'risultati'));
 %% 
 % _Copyright 2018 The MathWorks, Inc._
