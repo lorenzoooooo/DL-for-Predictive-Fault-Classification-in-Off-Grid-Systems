@@ -3,6 +3,7 @@ for i=1:size(sequenze,1)
     for j=1:size(sequenze{i,1}.mincellvoltage,2)
         if sequenze{i,1}.mincellvoltage(j)<=2000
             sequenze{i,1}.mincellvoltage(j)=sequenze{i,1}.mincellvoltage(j-1);  % trovo i campioni e gli assegno l'ultimo valore valido campionato
+            sequenze{i,1}.maxcellvoltage(j)=sequenze{i,1}.maxcellvoltage(j-1); 
         end
     end
 end
