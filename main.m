@@ -22,7 +22,7 @@ int_predizione=(24+2)*1;
 proporzione=1;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3300;
-soglia_bad_maxcellv=3200;
+soglia_bad_maxcellv=3250;
 soglia_good_maxcellv=3350;
 quota_vs=3;
 
@@ -32,7 +32,7 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"];
+    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"; "consumer current"];
     [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
 %     grafico(sequenze);
