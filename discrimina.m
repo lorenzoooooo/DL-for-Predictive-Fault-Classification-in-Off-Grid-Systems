@@ -4,8 +4,8 @@ variabili.righe=[];
 var={};
 if name =="var"
     load('var.mat');
-    for i=1:size(var,1)
-        for j=1:size(variabili.nome,1)
+    for j=1:size(variabili.nome,1)
+        for i=1:size(var,1)
             if variabili.nome(j)==var{i,1}
                 variabili.righe = [variabili.righe; i];
             end
