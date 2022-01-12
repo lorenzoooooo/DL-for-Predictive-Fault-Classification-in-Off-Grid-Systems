@@ -53,11 +53,6 @@ end
 [~,~,d6,~]=durata_seq(seq_def,treshold_lasso_max,">=");     % trovo le sequenze più lunghe di 6 giorni
 seq_def(d6,:)=[];                                           % e le elimino
 [seq_def] = picchi_anomali(seq_def);  % trovo le sequenze che presentano discontinuità sul min cellv che portano il valore istantaneamente sotto la soglia di 2000 mV
-% for i=1:size(cell_idx,1)                          
-%     for j=1:size(key,2)
-%         seq_def{cell_idx(i),1}(key(i,j)).mincellvoltage=seq_def{cell_idx(i),1}(key(i,j)-1).mincellvoltage;
-%     end
-% end
 
 treshold_lasso_min=treshold*(lasso-1);
 [~,~,d6,~]=durata_seq(seq_def,treshold_lasso_min,"<=");   %trovo le sequenze più corte di 5 giorni
