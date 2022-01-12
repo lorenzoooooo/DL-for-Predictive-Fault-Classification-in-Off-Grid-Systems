@@ -52,7 +52,7 @@ while j-lasso+1>0                   % estraggo sequenze da 6 giorni,interrompo q
 end
 [~,~,d6,~]=durata_seq(seq_def,treshold_lasso_max,">=");     % trovo le sequenze più lunghe di 6 giorni
 seq_def(d6,:)=[];                                           % e le elimino
-[seq_def] = picchi_anomali(seq_def);  % trovo le sequenze che presentano discontinuità sul min cellv che portano il valore istantaneamente sotto la soglia di 2000 mV
+[seq_def] = picchi_anomali(seq_def,variabili);  % trovo le sequenze che presentano discontinuità sul min cellv che portano il valore istantaneamente sotto la soglia di 2000 mV
 
 treshold_lasso_min=treshold*(lasso-1);
 [~,~,d6,~]=durata_seq(seq_def,treshold_lasso_min,"<=");   %trovo le sequenze più corte di 5 giorni
