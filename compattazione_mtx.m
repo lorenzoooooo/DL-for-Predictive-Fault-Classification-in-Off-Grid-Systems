@@ -92,3 +92,9 @@ for k=3:size(data,1)                    %interpolo valori var energy management
     p(k,:)=interp1(x(c1_k),y(c1_k),x,'linear');
 end
 data=p;
+
+%% aggiungo correzione anomalie
+anomalie=find(data(3,:)<=2500);
+for i=1:size(anomalie,2)
+    data(2:end,anomalie(i))=data(2:end,anomalie(i)-1);
+end
