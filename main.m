@@ -1,13 +1,3 @@
-%% Prima formattazione dei dati
-% input('ricordati di cambiare il numero della torre nella query!');
-% query=input('scegli query:\n','s');
-% eval(query);
-% global tipo name torre; % torre è l'id della torre, name dice se la stazione contiene la stazione meteo o meno e tipo differenzia tra digil pura e digil_iotbox
-% init;
-% compattazione_mtx;
-% pulizia;
-% salvataggio;
-
 %% inserisco i parametri
 % lasso è a durata in giorni della sequenza, span è l'intervallo tra una
 % sequenza e l'altra e in_pred è l'intervallo predittivo in ore.
@@ -35,8 +25,8 @@ while ischar(a)
     variabili.nome= ["min cell voltage";"panel power";"max cell voltage"; "consumer current"];
     [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
-%     grafico(sequenze);
     sequenze=normalizzazione(data,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
+    grafico(sequenze);
     [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;
