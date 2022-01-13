@@ -24,6 +24,7 @@ global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_
 %         end
 %     end
 
+if isfield(sequenze{1,1},'panelpower')
     pp.bad.seq=cell(size(sequenze,1),1);
     pp.good.seq=cell(size(sequenze,1),1);
     pp.seq=pp_dy(sequenze);
@@ -49,7 +50,9 @@ global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_
             pp.good.seq{pp.good.idx(i),1}=sequenze{pp.good.idx(i),1};
         end
     end
+end
 
+if isfield(sequenze{1,1},'mincellvoltage')
     mincellv.bad.soglia=soglia_bad_mincellv;                                         % soglia critica patologica
     mincellv.good.soglia=soglia_good_mincellv;                                        % soglia critica sana
     for i=1:size(sequenze,1)
@@ -62,7 +65,9 @@ global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_
     mincellv.bad.seq=assegno_etichetta(mincellv.bad.idx,sequenze);
     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
     mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
+end
 
+if isfield(sequenze{1,1},'maxcellvoltage')
     maxcellv.bad.soglia=soglia_bad_maxcellv;                                         % soglia critica patologica
     maxcellv.good.soglia=soglia_good_maxcellv;                                        % soglia critica sana
     for i=1:size(sequenze,1)
@@ -75,7 +80,7 @@ global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_
     maxcellv.bad.seq=assegno_etichetta(maxcellv.bad.idx,sequenze);
     maxcellv.good.idx=find(maxcellv.mean > maxcellv.good.soglia);
     maxcellv.good.seq=assegno_etichetta(maxcellv.good.idx,sequenze);
-
+end
 
 %% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
 
@@ -84,7 +89,7 @@ i=1;
 
 int_pred=duration(int_predizione,0,0);
 for i=1:size(mincellv.bad.seq,1)
-    if (~isempty(mincellv.bad.seq{i,1}) && i<size(mincellv.bad.seq,1)) || (~isempty(maxcellv.bad.seq{i,1}) && i<size(maxcellv.bad.seq,1))  || (~isempty(pp.bad.seq{i,1}) && i<size(pp.bad.seq,1))
+    if (~isempty(mincellv.bad.seq{i,1}) && i<size(mincellv.bad.seq,1)) %|| (~isempty(maxcellv.bad.seq{i,1}) && i<size(maxcellv.bad.seq,1))  || (~isempty(pp.bad.seq{i,1}) && i<size(pp.bad.seq,1))
         idx_b=[idx_b i];
         d1=datetime(sequenze{i,1}.time(1),'ConvertFrom','excel');
         d0=datetime(sequenze{i+1,1}.time(1),'ConvertFrom','excel');
@@ -103,7 +108,7 @@ idx_b=unique(idx_b);
 
 idx_g=[];
 for i=1:size(mincellv.good.seq,1)
-    if (~isempty(mincellv.good.seq{i,1}) && i<size(mincellv.good.seq,1)) || (~isempty(maxcellv.good.seq{i,1}) && i<size(maxcellv.good.seq,1)) ||  (~isempty(pp.good.seq{i,1}) && i<size(pp.good.seq,1))
+    if (~isempty(mincellv.good.seq{i,1}) && i<size(mincellv.good.seq,1)) % || (~isempty(maxcellv.good.seq{i,1}) && i<size(maxcellv.good.seq,1)) ||  (~isempty(pp.good.seq{i,1}) && i<size(pp.good.seq,1))
         idx_g=[idx_g i];
         d1=datetime(sequenze{i,1}.time(1),'ConvertFrom','excel');
         d0=datetime(sequenze{i+1,1}.time(1),'ConvertFrom','excel');
