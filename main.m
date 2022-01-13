@@ -4,7 +4,10 @@
 % proporzione è il rapporto tra sequenze patologiche e sane nel dataset (se
 % è 2 allora avrò che per ogni sequenza patologica ne ho due sane).
 % Quota_vs si riferisce alla frazione di test set che viene uat anche per
-% il validation set
+% il validation set.
+% Torre è l'id della torre, name dice se la stazione contiene la stazione 
+% meteo o meno e tipo differenzia tra digil pura e digil_iotbox
+global tipo name torre; 
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
@@ -22,11 +25,12 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"; "consumer current"];
+%     close all;
+    variabili.nome= ["min cell voltage";"panel power"];  %;"max cell voltage"; "consumer current"
     [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
     sequenze=normalizzazione(data,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
-    grafico(sequenze);
+    grafico(sequenze,variabili);
     [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;

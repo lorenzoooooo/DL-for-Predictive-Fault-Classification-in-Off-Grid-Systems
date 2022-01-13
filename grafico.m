@@ -1,45 +1,11 @@
-function [] = grafico(sequenze)
+function [] = grafico(sequenze,variabili)
 global torre;
+for k=1:size(variabili.nb,1)
     figure;
     for i=size(sequenze,1):-1:1
-        if isempty(sequenze{i,1})
-            continue;
-        end
-        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.mincellvoltage);
+        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.(variabili.nb(k)));
         hold on;
     end
     hold off;
-    title(strcat(torre," mincellv"));
-
-    figure;
-    for i=size(sequenze,1):-1:1
-        if isempty(sequenze{i,1})
-            continue;
-        end
-        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.panelpower);
-        hold on;
-    end
-    hold off;
-    title(strcat(torre," panel power"));
-
-    figure;
-    for i=size(sequenze,1):-1:1
-        if isempty(sequenze{i,1})
-            continue;
-        end
-        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.maxcellvoltage);
-        hold on;
-    end
-    hold off;
-    title(strcat(torre," maxcellv"));
-
-    figure;
-    for i=size(sequenze,1):-1:1
-        if isempty(sequenze{i,1})
-            continue;
-        end
-        plot(datetime(sequenze{i,1}.time,'ConvertFrom','excel'),sequenze{i,1}.consumercurrent);
-        hold on;
-    end
-    hold off;
-    title(strcat(torre," consumer current"));
+    title(strcat(torre,' ',variabili.nb(k)));
+end
