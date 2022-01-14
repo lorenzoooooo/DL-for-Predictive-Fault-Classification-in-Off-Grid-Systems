@@ -64,11 +64,9 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
     k=1;
     h=1;
     for j=1:size(sequenze,1)
+        sequenze{j,1}=rmfield(sequenze{j,1},"time");
         if ismember(j,tr.bad_idx)
             [~,b]=ismember(j,tr.bad_idx);
-            if isempty(sequenze{tr.bad_idx(b),1})
-                continue;
-            end
             XTr{k,1}=cell2mat(struct2cell(sequenze{tr.bad_idx(b),1}));
             YTr{k,1}='0';
             k=k+1;
@@ -92,18 +90,18 @@ function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
     YTr=categorical(YTr);
     YTs=categorical(YTs);
 
-    k=1;
-    for j=1:size(sequenze,1)
-        if ismember(j,vs.bad_idx)
-            [~,b]=ismember(j,vs.bad_idx);
-            XVs{k,1}=cell2mat(struct2cell(sequenze{vs.bad_idx(b),1}));
-            YVs{k,1}='0';
-            k=k+1;
-        elseif ismember(j,vs.good_idx)
-            [~,b]=ismember(j,vs.good_idx);
-            XVs{k,1}=cell2mat(struct2cell(sequenze{vs.good_idx(b),1}));
-            YVs{k,1}='1';
-            k=k+1;
-        end
-    end
-    YVs=categorical(YVs);
+%     k=1;
+%     for j=1:size(sequenze,1)
+%         if ismember(j,vs.bad_idx)
+%             [~,b]=ismember(j,vs.bad_idx);
+%             XVs{k,1}=cell2mat(struct2cell(sequenze{vs.bad_idx(b),1}));
+%             YVs{k,1}='0';
+%             k=k+1;
+%         elseif ismember(j,vs.good_idx)
+%             [~,b]=ismember(j,vs.good_idx);
+%             XVs{k,1}=cell2mat(struct2cell(sequenze{vs.good_idx(b),1}));
+%             YVs{k,1}='1';
+%             k=k+1;
+%         end
+%     end
+%     YVs=categorical(YVs);
