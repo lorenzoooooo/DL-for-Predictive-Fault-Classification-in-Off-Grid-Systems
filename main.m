@@ -11,13 +11,13 @@ global tipo name torre;
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
-int_predizione=(24+2)*1;
-proporzione=1;              
+int_predizione=(24+2)*3;
+proporzione=3;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3300;
 soglia_bad_maxcellv=3250;
 soglia_good_maxcellv=3350;
-quota_vs=3;
+%quota_vs=3;
 
 %% estraggo e etichetto le sequenze
 fclose('all');
@@ -26,11 +26,11 @@ a=fgetl(fileID);
 while ischar(a)
     load(a);
 %     close all;
-    variabili.nome= ["min cell voltage";"panel power"];  %;"max cell voltage"; "consumer current"
+    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"];  %; "consumer current"
     [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
     sequenze=normalizzazione(data,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
-    grafico(sequenze,variabili);
+%     grafico(sequenze,variabili);
     [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;

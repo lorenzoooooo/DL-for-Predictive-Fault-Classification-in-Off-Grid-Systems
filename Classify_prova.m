@@ -1,16 +1,17 @@
 close all force;
 clear;
 input('controlla che stai usando il giusto dataset!');
-dataset_path='risultati\t1025_t7286_t16239_t13008_t16399_t1059_t1021\mincellvoltage_panelpower_maxcellvoltage\3_1_26_1_3\3200_3300_3250_3350\dataset';
+dataset_path='risultati\t1025_t7286_t16239_t13008_t16399_t1059_t1021\mincellvoltage_panelpower_maxcellvoltage\3_1_26_1\3200_3300_3250_3350\dataset';
 load(dataset_path, 'X*', 'Y*','path');
 
 inputSize = 3;
-numHiddenUnits =10;
+numHiddenUnits =35;
 numClasses = 2;
-maxEpochs = 10;
+maxEpochs = 15;
 miniBatchSize = 5;
-miniBatchSizets = 2;
-%% 
+miniBatchSizets = 7;
+lr=0.01;
+%%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
 
 % figure
@@ -28,10 +29,10 @@ miniBatchSizets = 2;
 % the training data by sequence length, and choose a mini-batch size so that sequences 
 % in a mini-batch have a similar length. The following figure shows the effect 
 % of padding sequences before and after sorting data.
-% 
-% 
-% 
-% Get the sequence lengths for each observation.
+
+
+
+%Get the sequence lengths for each observation.
 
 numObservations = numel(XTrain);
 for i=1:numObservations
@@ -72,7 +73,7 @@ layers = [ ...
     fullyConnectedLayer(numClasses)
     softmaxLayer
     classificationLayer]
-%% 
+%%
 % Now, specify the training options. Specify the solver to be |'adam'|, the 
 % gradient threshold to be 1, and the maximum number of epochs to be 100. To reduce 
 % the amount of padding in the mini-batches, choose a mini-batch size of 27. To 
@@ -85,19 +86,18 @@ layers = [ ...
 % on a GPU, if available, set |'ExecutionEnvironment'| to |'auto'| (this is the 
 % default value).
 solvername="adam";
-lr=0.003;
 options = trainingOptions(solvername, ...
     'InitialLearnRate', lr, ...
     'LearnRateSchedule','piecewise', ...
     'LearnRateDropFactor',0.7, ...
-    'LearnRateDropPeriod',2, ...
+    'LearnRateDropPeriod',3, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
     'Shuffle','never', ...
-    'Verbose',1, ...
+    'Verbose',0, ...
     'Plots','training-progress');   
 
 %     'OutputNetwork' ,'best-validation-loss', ...
@@ -143,12 +143,12 @@ figure;
 conf_chart=confusionchart(YTest,YPred);
 
 %% salvataggio
-currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
-file=strcat(strcat(solvername,'_',string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(options.InitialLearnRate),'_',string(round(acc,2))));
-path_def=strcat(path,{'\'},file,{'\'});
-mkdir(path_def);
-savefig(currentfig,strcat(path_def,'training_progress.fig'));
-savefig(strcat(path_def,'confusion_chart'));
-save(strcat(path_def,'risultati'));
+% currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
+% file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(options.InitialLearnRate),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2))));
+% path_def=strcat(path,{'\'},file,{'\'});
+% mkdir(path_def);
+% savefig(currentfig,strcat(path_def,'training_progress.fig'));
+% savefig(strcat(path_def,'confusion_chart'));
+% save(strcat(path_def,'risultati'));
 %% 
 % _Copyright 2018 The MathWorks, Inc._

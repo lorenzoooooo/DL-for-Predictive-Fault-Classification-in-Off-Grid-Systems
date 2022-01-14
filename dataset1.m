@@ -24,9 +24,8 @@ while ischar(a)                                         %ciclo che prende i dati
 %         XVal=[XVal; XVs{i,1}];
 %         YVal=[YVal; YVs(i,1)];
 %     end
-%     tralicci=[tralicci; torre];
-%     a = fgetl(fileID);
-
+    tralicci=[tralicci; torre];
+    a = fgetl(fileID);
 end
 fclose(fileID);
 
