@@ -24,52 +24,110 @@ codice = transpose(sqldata{:,3});
 bozza_dati = {time;count;codice};
 clearvars time count codice;
 %% prima versione della bozza di dati
+
 temp_data=versione1(bozza_dati,var);
 
 %% Seconda versione della bozza di dati. compatto tutte le colonne di campioni riguardanti lo stesso istante
-col=2;
-counter=1;
-bozza_dati=temp_data(:,1);
-y=zeros;
-bug_addr=strcat(tipo,{'\'},{torre},'\bug.txt');
-bug_addr=char(bug_addr);
-fileID = fopen(bug_addr,'w');
-fprintf(fileID,'coordinate delle variabili che hanno diversi campioni allo stesso istante di tempo\n');
-fprintf(fileID,'cerca in bug con le coordinate inserite in bug_idx per trovare le sequenze sospette:\n\tbug(bug_idx(1,1),bug_idx(1:2,2))\n\td=bug(1,bug_idx(1,2))\n\td1 = datetime(d,''ConvertFrom'',''excel'')\n');
-bug_idx={};
-while col<size(temp_data,2)                                 %scelgo la colonna
-    if temp_data(1,col)==temp_data(1,col+1)
-        counter=find(temp_data(1,col)==temp_data(1,:));     %conto quali colonne rappresentano lo stesso istante
-        sottomatrice=temp_data(:,counter);                  %estraggo la sottomatrice di dati rappresentanti lo stesso istante
-        valori_NaN = isnan(sottomatrice);
-        stringa_NaN=~zeros(1,size(sottomatrice,2));
-        for j=1:size(var,1)
-            k=j+1;
-            if valori_NaN(k,:)== stringa_NaN                %se una variabile non è stata sovrascritta passo alla riga seguente
-                continue;
-            else
-                a=find(valori_NaN(k,:)==0);
-                if size(a,2)>1
-                    for h=1:size(a,2)                       %se size(a)>1 allora ci sono diversi valori allo stesso istante
-                        fprintf(fileID,'(%d,%d)\n',k,col+a(1,h)-1);
-                        y(1,h)=sottomatrice(k,a(1,h));
-                        bug_idx=[bug_idx;[k,col+a(1,h)-1]];
-                    end
-                    fprintf(fileID,'\n');
-                    sottomatrice(k,1)= mean(y,2);           %il dato acquisito è la media dei campioni
-                else
-                    sottomatrice(k,1)=sottomatrice(k,a);
-                end
-            end
-        end
-        col=col+length(counter);
-    else
-        sottomatrice=temp_data(:,col);
-        col=col+1;
-    end
-    bozza_dati=[bozza_dati sottomatrice(:,1)];
+
+[temp_data,bug,bug_idx]=versione2(temp_data,var);
+
+%% inizializzo i dati (formo una colonna con valori diversi da 0 per tutte le variabili)
+%parto dal primo valore diverso da NaN dell'irradiazione
+b={};
+b{1,1}=nan;
+for i=2:size(var,1)+1
+    b{i,1}=isnan(bozza_dati(i,:));          
+    b{i,1}=find(b{i,1}==0);
+    b{i,1}=b{i,1}(1,1);
 end
-fclose(fileID);
-bug=temp_data;
-bug_idx=cell2mat(bug_idx); %visual(bug(1,1),bug(1:2,2))
-clear sottomatrice;
+b=cell2mat(b);
+[primo,idx_primo]=max(b);
+sottomatrice(1,1)=bozza_dati(1,primo);
+i=primo;
+for j=1:size(var,1)
+    k=j+1;
+    if ~isnan(bozza_dati(k,i))
+        sottomatrice(k,1)=bozza_dati(k,i);
+        continue;
+    end
+    counter=isnan(bozza_dati(k,i-1:-1:1));
+    counter=find(counter==0,1);
+    counter=i-counter; %colonna della variabile con valore numerico
+    sottomatrice(k,1)=bozza_dati(k,counter);
+end      
+temp_data=bozza_dati;
+
+%% sostituisco NaN con il valore precedente diverso da zero più vicino
+
+start_idx=isnan(temp_data(2,:));
+start_idx=find(start_idx==0,1);
+temp_data(:,1:start_idx-1)=[];
+temp_data(:,1)=sottomatrice;
+data=[];
+for i=2:size(temp_data,2)
+    data=[data sottomatrice];
+    c=~isnan(temp_data(:,i));
+    sottomatrice(1,1)=temp_data(1,i);
+    if c                            %se tt i val sulla colonna sono diversi da NaN
+        sottomatrice=temp_data(:,i);
+        continue
+    end
+    if c(2)==0                      %se l'irradiazione è NaN allora, se i valori delle altre variabili sono NaN vuol dire non sono variati rispetto all'ultimo campione e quindi riscrivo l'ultimo campione
+        sottomatrice(2,1)=NaN;
+        for j=3:size(temp_data,1)
+             if c(j)                %se il valore non è NaN passo alla prossima riga
+                 sottomatrice(j,1)=temp_data(j,i);
+                 continue
+             else                   %altrimenti ricopio l'ultimo campione diverso da NaN
+                 counter=isnan(temp_data(j,i-1:-1:1));
+                 counter=find(counter==0,1);
+                 counter=i-counter; %colonna della variabile con valore numerico
+                 sottomatrice(j,1)=temp_data(j,counter);
+             end
+        end
+    else                            %se l'irradiazione è diverso da NaN allora ricopio la matrice
+        if c(3:end)==zeros(size(c(3:end))) & i~=size(temp_data,2)
+            sottomatrice(:,1)=temp_data(:,i);
+        else
+            sottomatrice(2,1)=temp_data(2,i);
+            for j=3:size(temp_data,1)
+                if c(j)                %se il valore non è NaN passo alla prossima riga
+                    sottomatrice(j,1)=temp_data(j,i);
+                    continue
+                else                   %altrimenti ricopio l'ultimo campione diverso da NaN
+                    counter=isnan(temp_data(j,i-1:-1:1));
+                    counter=find(counter==0,1);
+                    counter=i-counter; %colonna della variabile con valore numerico
+                    sottomatrice(j,1)=temp_data(j,counter);
+                end
+             end
+        end
+    end
+end
+data=[data sottomatrice];
+
+%% interpolo i valori NaN che corrispondono all'asincronità dei pacchetti
+
+x=[1:size(data,2)];
+c=[];
+y=[];
+p=[];
+p(1,:)=data(1,:);
+c=~isnan(data(2,:));
+c1=find(c);                             %valori campionati di irradiazione
+c0=find(c==0);                          %valori NaN di irradiazione
+y=data(2,:);
+p(2,:)=interp1(x(c1),y(c1),x,'linear'); %interpolo valori irradiazione
+for k=3:size(data,1)                    %interpolo valori var energy management
+    y=data(k,:);
+    c_k=~isnan(data(k,:));
+    c1_k=find(c_k);
+    p(k,:)=interp1(x(c1_k),y(c1_k),x,'linear');
+end
+data=p;
+
+%% aggiungo correzione anomalie
+anomalie=find(data(3,:)<=2500);
+for i=1:size(anomalie,2)
+    data(2:end,anomalie(i))=data(2:end,anomalie(i)-1);
+end
