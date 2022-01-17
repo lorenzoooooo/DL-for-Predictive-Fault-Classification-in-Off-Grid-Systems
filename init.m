@@ -4,21 +4,15 @@ name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò 
 load(name,name);
 var=eval(name);
 torre=input('numero della torre preceduto da t:','s');
-if not(isfolder("iotbox"))
-    mkdir("iotbox");
-end
-if not(isfolder("digil__iotbox-digil"))
-    mkdir("digil__iotbox-digil");
-end
 if name == "var"
-    if not(isfolder(strcat("digil__iotbox-digil",{'\'},{torre})))
-        mkdir(strcat("digil__iotbox-digil",{'\'},{torre}));
+    tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
+    if not(isfolder(strcat(tipo,{'\'},{torre})))
+        mkdir(string(strcat(tipo,{'\'},{torre})));
     end
-    tipo=input('Se è un digil puro scrivi digil se è un digil-iotbox metti iotbox:','s');
 elseif name == "var_iotbox"
     tipo="iotbox";
-    if not(isfolder(strcat("iotbox",{'\'},{torre})))
-        mkdir(strcat("iotbox",{'\'},{torre}));
+    if not(isfolder(strcat(tipo,{'\'},{torre})))
+        mkdir(string(strcat(tipo,{'\'},{torre})));
     end
 end
 time = datetime(sqldata{:,1});
