@@ -1,20 +1,21 @@
-% t### è una tabella 
-clearvars -except sqldata;
-name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-load(name,name);
-var=eval(name);
-torre=input('numero della torre preceduto da t:','s');
-if name == "var"
-    tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
-    if not(isfolder(strcat(tipo,{'\'},{torre})))
-        mkdir(string(strcat(tipo,{'\'},{torre})));
-    end
-elseif name == "var_iotbox"
-    tipo="iotbox";
-    if not(isfolder(strcat(tipo,{'\'},{torre})))
-        mkdir(string(strcat(tipo,{'\'},{torre})));
-    end
-end
+% % t### è una tabella 
+% clearvars -except sqldata;
+% global tipo name torre;
+% name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
+% load(name,name);
+% var=eval(name);
+% torre=input('numero della torre preceduto da t:','s');
+% if name == "var"
+%     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
+%     if not(isfolder(strcat(tipo,{'\'},{torre})))
+%         mkdir(string(strcat(tipo,{'\'},{torre})));
+%     end
+% elseif name == "var_iotbox"
+%     tipo="iotbox";
+%     if not(isfolder(strcat(tipo,{'\'},{torre})))
+%         mkdir(string(strcat(tipo,{'\'},{torre})));
+%     end
+% end
 time = datetime(sqldata{:,1});
 time = convertTo(time,'excel');
 time = transpose(time);
@@ -22,16 +23,16 @@ count = transpose(sqldata{:,2});
 codice = transpose(sqldata{:,3});
 bozza_dati = {time;count;codice};
 %% 
-ind={}; %array binario, ogni cella contiene le colonne contenenti una variabile dalla prima all'ultima occorrenza
-coord={}; % coordinate delle colonne diverse da zero. Ogni cella rappresenta una variabile.
-righe_var=size(var,1); %num di var
-tot_colonne = size(bozza_dati{1,1},2); %num di colonne del file orginale
-temp_data={}; %cell array in cui la prima riga è il tempo e le seguenti rappresentano ognuna una variabile
+ind={};                                 %array binario, ogni cella contiene le colonne contenenti una variabile dalla prima all'ultima occorrenza
+coord={};                               % coordinate delle colonne diverse da zero. Ogni cella rappresenta una variabile.
+righe_var=size(var,1);                  %num di var
+tot_colonne = size(bozza_dati{1,1},2);  %num di colonne del file orginale
+temp_data={};                           %cell array in cui la prima riga è il tempo e le seguenti rappresentano ognuna una variabile
 for z=2:righe_var+1 
     for y=1:tot_colonne
         temp_data{z,1}(1,y)=NaN;
     end
-end %matrice di NaN
+end                                     %matrice di NaN
 
 for i=1:righe_var
     ind{i,1}= eq(bozza_dati{3,:}, var{i,2});
@@ -39,7 +40,7 @@ for i=1:righe_var
 end
 for i=1:righe_var
     k=i+1; 
-    temp_data(1,:)=bozza_dati(1,:); %la prima riga di data deve essere il timestamp
+    temp_data(1,:)=bozza_dati(1,:);     %la prima riga di data deve essere il timestamp
     for j=1:size(coord{i,1},2)
        temp_data{k,1}(1,coord{i,1}(1,j))=bozza_dati{2,1}(1,coord{i,1}(1,j));
     end
