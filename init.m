@@ -22,45 +22,18 @@ time = transpose(time);
 count = transpose(sqldata{:,2});
 codice = transpose(sqldata{:,3});
 bozza_dati = {time;count;codice};
-%% 
-ind={};                                 %array binario, ogni cella contiene le colonne contenenti una variabile dalla prima all'ultima occorrenza
-coord={};                               % coordinate delle colonne diverse da zero. Ogni cella rappresenta una variabile.
-righe_var=size(var,1);                  %num di var
-tot_colonne = size(bozza_dati{1,1},2);  %num di colonne del file orginale
-temp_data=cell(righe_var+1,1);          %cell array in cui la prima riga è il tempo e le seguenti rappresentano ognuna una variabile
-temp_data(1,:)=bozza_dati(1,:);         %la prima riga di temp_data deve essere il timestamp
-for z=2:righe_var+1 
-    temp_data(z,1)={NaN(1,tot_colonne)};
-end
-for i=1:righe_var
-    ind{i,1}= eq(bozza_dati{3,:}, var{i,2});
-    coord{i,1}=find(ind{i,1});
-end
-for i=1:righe_var
-    k=i+1; 
-    for j=1:size(coord{i,1},2)
-       temp_data{k,1}(1,coord{i,1}(1,j))=bozza_dati{2,1}(1,coord{i,1}(1,j));
-    end
-    ultimo_val_non_nullo = coord{i,1}(1,j);
-    temp_data{k,1}(1,ultimo_val_non_nullo+1:tot_colonne) =NaN; % riempio restanti campioni con 0 per avere vettori con la stessa lunghezza
-end
-temp_data=cell2mat(temp_data); %ottengo matrice da cell array
-clear bozza_dati;
 
+temp_data=versione1(bozza_dati,var);
+
+% data=temp_data;
 %% compatto tutte le colonne di campioni riguardanti lo stesso istante
 col=2;
 counter=1;
 bozza_dati=temp_data(:,1);
 y=zeros;
-if name == "var"
-    bug_addr=strcat("digil__iotbox-digil",{'\'},{torre},'\bug.txt');
-    bug_addr=char(bug_addr);
-    fileID = fopen(bug_addr,'w');
-elseif name == "var_iotbox"
-    bug_addr=strcat("iotbox",{'\'},{torre},'\bug.txt');
-    bug_addr=char(bug_addr);
-    fileID = fopen(bug_addr,'w');
-end
+bug_addr=strcat(tipo,{'\'},{torre},'\bug.txt');
+bug_addr=char(bug_addr);
+fileID = fopen(bug_addr,'w');
 fprintf(fileID,'coordinate delle variabili che hanno diversi campioni allo stesso istante di tempo\n');
 fprintf(fileID,'cerca in bug con le coordinate inserite in bug_idx per trovare le sequenze sospette:\n\tbug(bug_idx(1,1),bug_idx(1:2,2))\n\td=bug(1,bug_idx(1,2))\n\td1 = datetime(d,''ConvertFrom'',''excel'')\n');
 bug_idx={};
