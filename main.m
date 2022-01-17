@@ -7,7 +7,7 @@
 % il validation set.
 % Torre è l'id della torre, name dice se la stazione contiene la stazione 
 % meteo o meno e tipo differenzia tra digil pura e digil_iotbox
-global tipo name torre; 
+ 
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
@@ -37,4 +37,4 @@ while ischar(a)
     a=fgetl(fileID);
 end
 fclose(fileID);
-dataset1();
+% dataset1();
