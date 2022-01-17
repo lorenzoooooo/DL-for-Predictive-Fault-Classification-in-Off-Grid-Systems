@@ -27,20 +27,17 @@ ind={};                                 %array binario, ogni cella contiene le c
 coord={};                               % coordinate delle colonne diverse da zero. Ogni cella rappresenta una variabile.
 righe_var=size(var,1);                  %num di var
 tot_colonne = size(bozza_dati{1,1},2);  %num di colonne del file orginale
-temp_data={};                           %cell array in cui la prima riga è il tempo e le seguenti rappresentano ognuna una variabile
+temp_data=cell(righe_var+1,1);          %cell array in cui la prima riga è il tempo e le seguenti rappresentano ognuna una variabile
+temp_data(1,:)=bozza_dati(1,:);         %la prima riga di temp_data deve essere il timestamp
 for z=2:righe_var+1 
-    for y=1:tot_colonne
-        temp_data{z,1}(1,y)=NaN;
-    end
-end                                     %matrice di NaN
-
+    temp_data(z,1)={NaN(1,tot_colonne)};
+end
 for i=1:righe_var
     ind{i,1}= eq(bozza_dati{3,:}, var{i,2});
     coord{i,1}=find(ind{i,1});
 end
 for i=1:righe_var
     k=i+1; 
-    temp_data(1,:)=bozza_dati(1,:);     %la prima riga di data deve essere il timestamp
     for j=1:size(coord{i,1},2)
        temp_data{k,1}(1,coord{i,1}(1,j))=bozza_dati{2,1}(1,coord{i,1}(1,j));
     end
