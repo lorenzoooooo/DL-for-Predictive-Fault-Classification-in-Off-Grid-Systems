@@ -16,53 +16,28 @@
 %         mkdir(string(strcat(tipo,{'\'},{torre})));
 %     end
 % end
-time = datetime(sqldata{:,1});
-time = convertTo(time,'excel');
-time = transpose(time);
-count = transpose(sqldata{:,2});
-codice = transpose(sqldata{:,3});
-bozza_dati = {time;count;codice};
-clearvars time count codice;
-%% prima versione della bozza di dati
+% time = datetime(sqldata{:,1});
+% time = convertTo(time,'excel');
+% time = transpose(time);
+% count = transpose(sqldata{:,2});
+% codice = transpose(sqldata{:,3});
+% bozza_dati = {time;count;codice};
+% clearvars time count codice;
+% %% prima versione della bozza di dati
+% 
+% temp_data=versione1(bozza_dati,var);
+% 
+% %% Seconda versione della bozza di dati. compatto tutte le colonne di campioni riguardanti lo stesso istante
+% 
+% [temp_data,bug,bug_idx]=versione2(temp_data,var);
 
-temp_data=versione1(bozza_dati,var);
-
-%% Seconda versione della bozza di dati. compatto tutte le colonne di campioni riguardanti lo stesso istante
-
-[temp_data,bug,bug_idx]=versione2(temp_data,var);
-
-%% inizializzo i dati (formo una colonna con valori diversi da 0 per tutte le variabili)
+%% Creo una colonna iniziale con i valori per tutte le variabili
 %parto dal primo valore diverso da NaN dell'irradiazione
-b={};
-b{1,1}=nan;
-for i=2:size(var,1)+1
-    b{i,1}=isnan(bozza_dati(i,:));          
-    b{i,1}=find(b{i,1}==0);
-    b{i,1}=b{i,1}(1,1);
-end
-b=cell2mat(b);
-[primo,idx_primo]=max(b);
-sottomatrice(1,1)=bozza_dati(1,primo);
-i=primo;
-for j=1:size(var,1)
-    k=j+1;
-    if ~isnan(bozza_dati(k,i))
-        sottomatrice(k,1)=bozza_dati(k,i);
-        continue;
-    end
-    counter=isnan(bozza_dati(k,i-1:-1:1));
-    counter=find(counter==0,1);
-    counter=i-counter; %colonna della variabile con valore numerico
-    sottomatrice(k,1)=bozza_dati(k,counter);
-end      
-temp_data=bozza_dati;
+
+temp_data=versione3(temp_data,var);
 
 %% sostituisco NaN con il valore precedente diverso da zero più vicino
 
-start_idx=isnan(temp_data(2,:));
-start_idx=find(start_idx==0,1);
-temp_data(:,1:start_idx-1)=[];
-temp_data(:,1)=sottomatrice;
 data=[];
 for i=2:size(temp_data,2)
     data=[data sottomatrice];
