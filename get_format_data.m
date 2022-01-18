@@ -4,6 +4,5 @@ query=input('scegli query:\n','s');
 eval(query);
 %% Prima formattazione dei dati
 init;
-compattazione_mtx;
 pulizia;
 salvataggio;
