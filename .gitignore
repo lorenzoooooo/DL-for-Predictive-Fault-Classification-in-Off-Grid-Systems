@@ -1,5 +1,6 @@
 .asv
 *.txt
-digil__iotbox-digil/
+digil/
 iotbox/
+iotbox-digil/
 risultati/*
