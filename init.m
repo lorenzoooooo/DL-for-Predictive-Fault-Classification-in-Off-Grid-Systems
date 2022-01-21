@@ -64,7 +64,7 @@ end
 
 
 j=10;
-%     b=48;
+%     b=48;jj
 %     a=find(p.time==coord{10,1}.time(b));
     figure;
     plot(coord{j,1}.time, coord{j,1}.value,'b');
