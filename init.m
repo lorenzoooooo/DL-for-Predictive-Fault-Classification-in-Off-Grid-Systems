@@ -2,7 +2,7 @@
 % clearvars -except sqldata;
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-% load(name,name);
+load(name,name);
 % var=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
@@ -38,10 +38,10 @@ for i=1:size(var,1)
     coord{i,1}=mystruct;
 end
 
-for j=10
+for j=11
     int=diff(coord{j,1}.time);                         % differenza tra 2 campioni consecutivi: X(2)-X(1)
     % int_q=floor(int,std_freq);
-    int_idx=find(int>max_timeout)+1;                    % voglio l'indice del campione X(2)
+    int_idx=find(int>max_timeout)+1;                   % voglio l'indice del campione X(2)
     no_diag=[];
     for i=1:size(int_idx,2)
         if coord{j,1}.diag(int_idx(i))==0              % trovo di int_idx quei campioni che hanno diag=0
@@ -54,7 +54,7 @@ for j=10
         coord{j,1}.time=[coord{j,1}.time(1:no_diag(i)-1) coord{j,1}.time(no_diag(i))-seconds(std_freq) coord{j,1}.time(no_diag(i):end)];
         coord{j,1}.value=[coord{j,1}.value(1:no_diag(i)-1) coord{j,1}.value(no_diag(i)-1) coord{j,1}.value(no_diag(i):end)];
         coord{j,1}.diag=[coord{j,1}.diag(1:no_diag(i)-1) coord{j,1}.diag(no_diag(i)-1) coord{j,1}.diag(no_diag(i):end)];
-        no_diag(i+1)=no_diag(i+1)+1;
+        no_diag(i+1:end)=no_diag(i+1:end)+1;    %ogni volta che inserisco una colonna incremento l'indice delle colonne seguenti di 1
     end
     coord{j,1}.time=[coord{j,1}.time(1:no_diag(i)-1) coord{j,1}.time(no_diag(i))-seconds(std_freq) coord{j,1}.time(no_diag(i):end)];
     coord{j,1}.value=[coord{j,1}.value(1:no_diag(i)-1) coord{j,1}.value(no_diag(i)-1) coord{j,1}.value(no_diag(i):end)];
@@ -63,8 +63,8 @@ for j=10
 end
 
 
-j=10;
-%     b=48;jj
+j=11;
+%     b=48;
 %     a=find(p.time==coord{10,1}.time(b));
     figure;
     plot(coord{j,1}.time, coord{j,1}.value,'b');
