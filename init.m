@@ -16,14 +16,14 @@ load(name,name);
 %         mkdir(string(strcat(tipo,{'\'},{torre})));
 %     end
 % end
-time = datetime(sqldata{:,1});
-% time = convertTo(time,'excel');
-time = transpose(time);
-count = transpose(sqldata{:,2});
-codice = transpose(sqldata{:,3});
-diag= transpose(sqldata{:,4});
-bozza_dati = {time;count;codice;diag};
-clearvars time count codice diag;
+% time = datetime(sqldata{:,1});
+% % time = convertTo(time,'excel');
+% time = transpose(time);
+% count = transpose(sqldata{:,2});
+% codice = transpose(sqldata{:,3});
+% diag= transpose(sqldata{:,4});
+% bozza_dati = {time;count;codice;diag};
+% clearvars time count codice diag;
 %%
 std_freq=900;
 max_timeout=seconds(1200);
@@ -38,9 +38,9 @@ for i=1:size(var,1)
     coord{i,1}=mystruct;
 end
 
-for j=11
+for j=1:size(coord,1)
     int=diff(coord{j,1}.time);                         % differenza tra 2 campioni consecutivi: X(2)-X(1)
-    % int_q=floor(int,std_freq);
+%     int_q=floor(seconds(int),std_freq);
     int_idx=find(int>max_timeout)+1;                   % voglio l'indice del campione X(2)
     no_diag=[];
     for i=1:size(int_idx,2)
@@ -51,26 +51,24 @@ for j=11
     p{j,1}=coord{j,1};
     d{j,1}=no_diag;
     for i=1:size(no_diag,2)-1
-        coord{j,1}.time=[coord{j,1}.time(1:no_diag(i)-1) coord{j,1}.time(no_diag(i))-seconds(std_freq) coord{j,1}.time(no_diag(i):end)];
-        coord{j,1}.value=[coord{j,1}.value(1:no_diag(i)-1) coord{j,1}.value(no_diag(i)-1) coord{j,1}.value(no_diag(i):end)];
-        coord{j,1}.diag=[coord{j,1}.diag(1:no_diag(i)-1) coord{j,1}.diag(no_diag(i)-1) coord{j,1}.diag(no_diag(i):end)];
+        coord = inserisci(coord,no_diag,std_freq,i,j);
         no_diag(i+1:end)=no_diag(i+1:end)+1;    %ogni volta che inserisco una colonna incremento l'indice delle colonne seguenti di 1
     end
-    coord{j,1}.time=[coord{j,1}.time(1:no_diag(i)-1) coord{j,1}.time(no_diag(i))-seconds(std_freq) coord{j,1}.time(no_diag(i):end)];
-    coord{j,1}.value=[coord{j,1}.value(1:no_diag(i)-1) coord{j,1}.value(no_diag(i)-1) coord{j,1}.value(no_diag(i):end)];
-    coord{j,1}.diag=[coord{j,1}.diag(1:no_diag(i)-1) coord{j,1}.diag(no_diag(i)-1) coord{j,1}.diag(no_diag(i):end)];
+    coord = inserisci(coord,no_diag,std_freq,i,j);
     unchanged{j,1}=no_diag;
 end
 
 
-j=11;
+for j=1:size(coord,1)
 %     b=48;
 %     a=find(p.time==coord{10,1}.time(b));
     figure;
     plot(coord{j,1}.time, coord{j,1}.value,'b');
     hold on;
     plot(p{j,1}.time,p{j,1}.value);
+    title(coord{j,1}.name);
     hold off;
+end
 
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
