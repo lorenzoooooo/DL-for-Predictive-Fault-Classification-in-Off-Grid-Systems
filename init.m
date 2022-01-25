@@ -38,8 +38,19 @@ for i=1:size(ref,1)
     coord{i,1}=mystruct;
 end
 
-for j=1:size(coord,1)
-    coord{j,1} = traslazione (coord{j,1}, max_timeout, std_freq);
+for i=1:size(coord,1)
+    coord{i,1}=interpola(coord{i,1});
+%     x=coord{i,1}.time;
+%     y=coord{i,1}.value;
+%     c0=find(coord{i,1}.diag==0);
+%     coord{i,1}.value=interp1(x(c0),y(c0),x);
+%     c1=find(coord{i,1}.diag==1);
+%     coord{i,1}.diag(c1)=0;
+end
+
+for i=1:size(coord,1)
+    p{i,1}=coord{i,1};
+    coord{i,1} = traslazione (coord{i,1}, max_timeout, std_freq);
 %     interval{j,1}=diff(coord{j,1}.time);                    
 %     x{j,1}=find(interval{j,1}>max_timeout);                 
 %     diag_0{j,1}=find(coord{j,1}.diag(x{j,1})==0);
@@ -59,15 +70,16 @@ for j=1:size(coord,1)
 end
 
 
-% for j=1:size(coord,1)
+% for i=1:size(coord,1)
 %     figure;
-%     plot(coord{j,1}.time, coord{j,1}.value,'b');
+%     plot(coord{i,1}.time, coord{i,1}.value,'b');
 %     hold on;
-%     plot(p{j,1}.time,p{j,1}.value);
-%     title(coord{j,1}.name);
+%     plot(p{i,1}.time,p{i,1}.value);
+%     title(coord{i,1}.name);
 %     hold off;
 % end
- 
+
+% clearvars mystruct idx i ref var_iotbox
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
 % save(addr);
