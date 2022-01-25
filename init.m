@@ -39,37 +39,34 @@ for i=1:size(var,1)
 end
 
 for j=1:size(coord,1)
-    int=diff(coord{j,1}.time);                         % differenza tra 2 campioni consecutivi: X(2)-X(1)
-%     int_q=floor(seconds(int),std_freq);
-    int_idx=find(int>max_timeout)+1;                   % voglio l'indice del campione X(2)
-    no_diag=[];
-    for i=1:size(int_idx,2)
-        if coord{j,1}.diag(int_idx(i))==0              % trovo di int_idx quei campioni che hanno diag=0
-            no_diag=[no_diag int_idx(i)];
+    interval{j,1}=diff(coord{j,1}.time);                    
+    x{j,1}=find(interval{j,1}>max_timeout);                 
+    diag_0{j,1}=find(coord{j,1}.diag(x{j,1})==0);
+    diag_0{j,1}=x{j,1}(diag_0{j,1});
+    occ_diag_0{j,1}=floor(seconds(interval{j,1}(diag_0{j,1}))/std_freq);
+    occ_diag_0{j,2}=mod(seconds(interval{j,1}(diag_0{j,1})),std_freq);
+    p{j,1}=coord{j,1};
+    for i=1:size(diag_0{j,1},2)
+        if occ_diag_0{j,2}(i)==0                      
+            coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i)-1);
+            diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i)-1;
+        else
+            coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i));
+            diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i);
         end
     end
-    p{j,1}=coord{j,1};
-    d{j,1}=no_diag;
-    for i=1:size(no_diag,2)-1
-        coord = inserisci(coord,no_diag,std_freq,i,j);
-        no_diag(i+1:end)=no_diag(i+1:end)+1;    %ogni volta che inserisco una colonna incremento l'indice delle colonne seguenti di 1
-    end
-    coord = inserisci(coord,no_diag,std_freq,i,j);
-    unchanged{j,1}=no_diag;
 end
 
 
-for j=1:size(coord,1)
-%     b=48;
-%     a=find(p.time==coord{10,1}.time(b));
-    figure;
-    plot(coord{j,1}.time, coord{j,1}.value,'b');
-    hold on;
-    plot(p{j,1}.time,p{j,1}.value);
-    title(coord{j,1}.name);
-    hold off;
-end
-
+% for j=1:size(coord,1)
+%     figure;
+%     plot(coord{j,1}.time, coord{j,1}.value,'b');
+%     hold on;
+%     plot(p{j,1}.time,p{j,1}.value);
+%     title(coord{j,1}.name);
+%     hold off;
+% end
+% 
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
 % save(addr);
