@@ -39,44 +39,20 @@ for i=1:size(ref,1)
 end
 
 for i=1:size(coord,1)
+    p{i,1}=coord{i,1};
     coord{i,1}=interpola(coord{i,1});
-%     x=coord{i,1}.time;
-%     y=coord{i,1}.value;
-%     c0=find(coord{i,1}.diag==0);
-%     coord{i,1}.value=interp1(x(c0),y(c0),x);
-%     c1=find(coord{i,1}.diag==1);
-%     coord{i,1}.diag(c1)=0;
+    coord{i,1} = traslazione (coord{i,1}, max_timeout, std_freq);
 end
 
-for i=1:size(coord,1)
-    p{i,1}=coord{i,1};
-    coord{i,1} = traslazione (coord{i,1}, max_timeout, std_freq);
-%     interval{j,1}=diff(coord{j,1}.time);                    
-%     x{j,1}=find(interval{j,1}>max_timeout);                 
-%     diag_0{j,1}=find(coord{j,1}.diag(x{j,1})==0);
-%     diag_0{j,1}=x{j,1}(diag_0{j,1});
-%     occ_diag_0{j,1}=floor(seconds(interval{j,1}(diag_0{j,1}))/std_freq);
-%     occ_diag_0{j,2}=mod(seconds(interval{j,1}(diag_0{j,1})),std_freq);
-%     p{j,1}=coord{j,1};
-%     for i=1:size(diag_0{j,1},2)
-%         if occ_diag_0{j,2}(i)==0                      
-%             coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i)-1);
-%             diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i)-1;
-%         else
-%             coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i));
-%             diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i);
-%         end
-%     end
-end
 
 
 % for i=1:size(coord,1)
 %     figure;
 %     plot(coord{i,1}.time, coord{i,1}.value,'b');
-%     hold on;
-%     plot(p{i,1}.time,p{i,1}.value);
+% %     hold on;
+% %     plot(p{i,1}.time,p{i,1}.value);
 %     title(coord{i,1}.name);
-%     hold off;
+% %     hold off;
 % end
 
 % clearvars mystruct idx i ref var_iotbox
