@@ -3,7 +3,7 @@
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
 load(name,name);
-% var=eval(name);
+ref=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
 %     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
@@ -28,10 +28,10 @@ load(name,name);
 std_freq=900;
 max_timeout=seconds(1200);
 
-coord=cell(size(var,1),1);
-for i=1:size(var,1)
-    mystruct.name=var{i,1};
-    idx= find(eq(bozza_dati{3,:}, var{i,2}));
+coord=cell(size(ref,1),1);
+for i=1:size(ref,1)
+    mystruct.name=ref{i,1};
+    idx= find(eq(bozza_dati{3,:}, ref{i,2}));
     mystruct.value=bozza_dati{2,1}(idx);
     mystruct.time=bozza_dati{1,1}(idx);
     mystruct.diag=bozza_dati{4,1}(idx);
@@ -39,22 +39,23 @@ for i=1:size(var,1)
 end
 
 for j=1:size(coord,1)
-    interval{j,1}=diff(coord{j,1}.time);                    
-    x{j,1}=find(interval{j,1}>max_timeout);                 
-    diag_0{j,1}=find(coord{j,1}.diag(x{j,1})==0);
-    diag_0{j,1}=x{j,1}(diag_0{j,1});
-    occ_diag_0{j,1}=floor(seconds(interval{j,1}(diag_0{j,1}))/std_freq);
-    occ_diag_0{j,2}=mod(seconds(interval{j,1}(diag_0{j,1})),std_freq);
-    p{j,1}=coord{j,1};
-    for i=1:size(diag_0{j,1},2)
-        if occ_diag_0{j,2}(i)==0                      
-            coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i)-1);
-            diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i)-1;
-        else
-            coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i));
-            diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i);
-        end
-    end
+    coord{j,1} = traslazione (coord{j,1}, max_timeout, std_freq);
+%     interval{j,1}=diff(coord{j,1}.time);                    
+%     x{j,1}=find(interval{j,1}>max_timeout);                 
+%     diag_0{j,1}=find(coord{j,1}.diag(x{j,1})==0);
+%     diag_0{j,1}=x{j,1}(diag_0{j,1});
+%     occ_diag_0{j,1}=floor(seconds(interval{j,1}(diag_0{j,1}))/std_freq);
+%     occ_diag_0{j,2}=mod(seconds(interval{j,1}(diag_0{j,1})),std_freq);
+%     p{j,1}=coord{j,1};
+%     for i=1:size(diag_0{j,1},2)
+%         if occ_diag_0{j,2}(i)==0                      
+%             coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i)-1);
+%             diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i)-1;
+%         else
+%             coord{j,1} = inserisci(coord{j,1},diag_0{j,1}(i),std_freq,occ_diag_0{j,1}(i));
+%             diag_0{j,1}(i+1:end)=diag_0{j,1}(i+1:end)+occ_diag_0{j,1}(i);
+%         end
+%     end
 end
 
 
@@ -66,7 +67,7 @@ end
 %     title(coord{j,1}.name);
 %     hold off;
 % end
-% 
+ 
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
 % save(addr);
