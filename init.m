@@ -1,9 +1,9 @@
-% % t### è una tabella 
+%% t### è una tabella 
 % clearvars -except sqldata;
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-load(name,name);
-ref=eval(name);
+% load(name,name);
+% ref=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
 %     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
@@ -40,11 +40,10 @@ end
 
 for i=1:size(coord,1)
     p{i,1}=coord{i,1};
-    coord{i,1}=interpola(coord{i,1});
-    coord{i,1} = traslazione (coord{i,1}, max_timeout, std_freq);
+    coord{i,1} = interpola(coord{i,1});
+    coord{i,1} = traslazione(coord{i,1}, max_timeout, std_freq);
+    coord{i,1} = sovracampiona(coord{i,1});
 end
-
-
 
 % for i=1:size(coord,1)
 %     figure;
@@ -55,7 +54,7 @@ end
 % %     hold off;
 % end
 
-% clearvars mystruct idx i ref var_iotbox
-% addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
-% addr=char(addr);
-% save(addr);
+clearvars mystruct idx i ref var_iotbox
+addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
+addr=char(addr);
+save(addr);
