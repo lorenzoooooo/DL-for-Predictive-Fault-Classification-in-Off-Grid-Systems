@@ -1,5 +1,3 @@
-% % t### è una tabella 
-%%clearvars -except sqldata;
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
 % load(name,name);
@@ -24,6 +22,7 @@
 % diag= transpose(sqldata{:,4});
 % bozza_dati = {time;count;codice;diag};
 % clearvars time count codice diag;
+
 %%
 d=[datetime(2021,11,27,01,15,0), datetime(2021,11,27,01,30,00)];
 d=convertTo(d,'excel');
@@ -44,24 +43,33 @@ for i=1:size(ref,1)
     mystruct.diag=bozza_dati{4,1}(idx);
     coord{i,1}=mystruct;
 end
+p=coord;
 
 for i=1:size(coord,1)
-    p{i,1}=coord{i,1};
     coord{i,1} = interpola(coord{i,1});
     coord{i,1} = traslazione(coord{i,1},max_timeout, std_freq);
     coord{i,1} = sovracampiona(coord{i,1},final_freq);
+    p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
 end
 
-% for i=1:size(coord,1)
-%     figure;
-%     plot(datetime(p{i,1}.time,'convertfrom','excel'),p{i,1}.value,'r');
-%     hold on;
-%     plot(coord{i,1}.time, coord{i,1}.value,'b');
-%     title(coord{i,1}.name);
-%     hold off;
-% end
+coord= allineo(coord);
+
+nuova_struct.time=coord{1,1}.time;
+for i=1:size(ref,1)
+    coord{i,1}.name=nome_cartella(ref{i,1});
+    nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
+end
+
+for i=1:size(coord,1)
+    figure;
+    plot(p{i,1}.time,p{i,1}.value,'r');
+    hold on;
+    plot(coord{i,1}.time, coord{i,1}.value,'b');
+    title(coord{i,1}.name);
+    hold off;
+end
  
-% clearvars mystruct idx i var_iotbox var
+clearvars mystruct idx i var_iotbox var ref
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
 % save(addr);
