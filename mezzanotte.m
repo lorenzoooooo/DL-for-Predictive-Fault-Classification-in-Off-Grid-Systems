@@ -1,5 +1,6 @@
 function [dhour, d0] = mezzanotte(tempo)
-    d=datetime(tempo(1,:),'ConvertFrom','excel');
+%     d=datetime(tempo,'ConvertFrom','excel');
+    d=tempo;
     %% campiono trale 20 e le 03 del mattino per scandire le giornate
     dhour=find(hour(d)==20 | hour(d)==21 | hour(d)==22 | hour(d)==23 | hour(d)==00 | hour(d)==01 | hour(d)==02 | hour(d)==03) ;
     t1=dhour(end);
@@ -79,4 +80,5 @@ function [dhour, d0] = mezzanotte(tempo)
 %     a=a(c);
 %     dhour=[dhour a];
     %% trovo quando dhour conteggia diversi giorni come uno solo
-    d0=datetime(tempo(1,dhour),'ConvertFrom','excel');
+%     d0=datetime(tempo(dhour),'ConvertFrom','excel');
+d0=tempo(dhour);

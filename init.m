@@ -1,7 +1,7 @@
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-% load(name,name);
-% ref=eval(name);
+load(name,name);
+ref=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
 %     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
@@ -52,7 +52,7 @@ for i=1:size(coord,1)
     p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
 end
 
-coord= allineo(coord);
+coord = allineo(coord);
 
 nuova_struct.time=coord{1,1}.time;
 for i=1:size(ref,1)
@@ -60,14 +60,14 @@ for i=1:size(ref,1)
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
 
-for i=1:size(coord,1)
-    figure;
-    plot(p{i,1}.time,p{i,1}.value,'r');
-    hold on;
-    plot(coord{i,1}.time, coord{i,1}.value,'b');
-    title(coord{i,1}.name);
-    hold off;
-end
+% for i=1:size(coord,1)
+%     figure;
+%     plot(p{i,1}.time,p{i,1}.value,'r');
+%     hold on;
+%     plot(coord{i,1}.time, coord{i,1}.value,'b');
+%     title(coord{i,1}.name);
+%     hold off;
+% end
  
 clearvars mystruct idx i var_iotbox var ref
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
