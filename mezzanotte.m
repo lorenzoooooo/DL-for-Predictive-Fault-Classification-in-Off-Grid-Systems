@@ -1,11 +1,9 @@
 function [dhour, d0] = mezzanotte(tempo)
-%     d=datetime(tempo,'ConvertFrom','excel');
     d=tempo;
     %% campiono trale 20 e le 03 del mattino per scandire le giornate
-    dhour=find(hour(d)==20 | hour(d)==21 | hour(d)==22 | hour(d)==23 | hour(d)==00 | hour(d)==01 | hour(d)==02 | hour(d)==03) ;
+    dhour=find(hour(d)==18 | hour(d)==19 | hour(d)==20 | hour(d)==21 | hour(d)==22 | hour(d)==23 | hour(d)==00 | hour(d)==01 | hour(d)==02 | hour(d)==03) ;
     t1=dhour(end);
 
-    
     %% voglio solo il primo campione alla mezzanotte di ogni giorno
     i=dhour(1,1);
     j=find(dhour(1,:)==i);
@@ -22,6 +20,9 @@ function [dhour, d0] = mezzanotte(tempo)
         end
     end
     
+        %% trovo quando dhour conteggia diversi giorni come uno solo
+    d0=tempo(dhour);
+
     %% una volta che si è spenta la torre, gli unici istanti di funzionamento sono durante il giorno e quindi
     % per prelevarli devo concatenare a dhour campioni presi tra le 6 e e 14
 % 
@@ -79,6 +80,3 @@ function [dhour, d0] = mezzanotte(tempo)
 %     c(1,end)=size_month(end,1);
 %     a=a(c);
 %     dhour=[dhour a];
-    %% trovo quando dhour conteggia diversi giorni come uno solo
-%     d0=datetime(tempo(dhour),'ConvertFrom','excel');
-d0=tempo(dhour);

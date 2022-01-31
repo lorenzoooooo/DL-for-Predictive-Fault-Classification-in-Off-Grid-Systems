@@ -44,6 +44,9 @@ for i=1:size(ref,1)
     coord{i,1}=mystruct;
 end
 p=coord;
+for i=1:size(ref,1)
+    p{i,1}.name=nome_cartella(ref{i,1});
+end
 
 for i=1:size(coord,1)
     coord{i,1} = interpola(coord{i,1});
