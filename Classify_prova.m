@@ -1,25 +1,26 @@
 close all force;
 clear;
+
 input('controlla che stai usando il giusto dataset!');
-dataset_path='risultati\t1025_t7286_t16239_t13008_t16399_t1059_t1021\mincellvoltage_panelpower_maxcellvoltage\3_1_26_1\3200_3300_3250_3350\dataset';
+dataset_path='risultati\t1021\mincellvoltage_panelpower\3_1_78_1\3200_3300_3250_3350\dataset';
 load(dataset_path, 'X*', 'Y*','path');
 
-inputSize = 3;
-numHiddenUnits =35;
+inputSize = 2;
+numHiddenUnits =10;
 numClasses = 2;
 maxEpochs = 15;
 miniBatchSize = 5;
-miniBatchSizets = 7;
-lr=0.01;
+miniBatchSizets = 5;
+lr=0.03;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
 
-% figure
-% plot(XTrain{1}')
-% xlabel("Time Step")
-% title("Training Observation 1")
-% numFeatures = size(XTrain{1},1);
-% legend("Feature " + string(1:numFeatures),'Location','northeastoutside')
+figure
+plot(XTrain{1}')
+xlabel("Time Step")
+title("Training Observation 1")
+numFeatures = size(XTrain{1},1);
+legend("Feature " + string(1:numFeatures),'Location','northeastoutside')
 %% Prepare Data for Padding
 % During training, by default, the software splits the training data into mini-batches 
 % and pads the sequences so that they have the same length. Too much padding can 
@@ -88,19 +89,19 @@ layers = [ ...
 solvername="adam";
 options = trainingOptions(solvername, ...
     'InitialLearnRate', lr, ...
-    'LearnRateSchedule','piecewise', ...
-    'LearnRateDropFactor',0.7, ...
-    'LearnRateDropPeriod',3, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
     'Shuffle','never', ...
-    'Verbose',0, ...
+    'Verbose',1, ...
     'Plots','training-progress');   
 
-%     'OutputNetwork' ,'best-validation-loss', ...
+%      'LearnRateSchedule','piecewise', ...
+%     'LearnRateDropFactor',0.2, ...
+%     'LearnRateDropPeriod',3, ...
+
 %% Train LSTM Network
 % Train the LSTM network with the specified training options by using |trainNetwork|.
 
@@ -143,12 +144,12 @@ figure;
 conf_chart=confusionchart(YTest,YPred);
 
 %% salvataggio
-% currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
-% file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(options.InitialLearnRate),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2))));
-% path_def=strcat(path,{'\'},file,{'\'});
-% mkdir(path_def);
-% savefig(currentfig,strcat(path_def,'training_progress.fig'));
-% savefig(strcat(path_def,'confusion_chart'));
-% save(strcat(path_def,'risultati'));
+currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
+file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(options.InitialLearnRate),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2))));
+path_def=strcat(path,{'\'},file,{'\'});
+mkdir(path_def);
+savefig(currentfig,strcat(path_def,'training_progress.fig'));
+savefig(strcat(path_def,'confusion_chart'));
+save(strcat(path_def,'risultati'));
 %% 
 % _Copyright 2018 The MathWorks, Inc._
