@@ -11,7 +11,7 @@
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
-int_predizione=(24+2)*3;
+int_predizione=24*3;
 proporzione=3;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3300;
