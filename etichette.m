@@ -1,4 +1,4 @@
-function [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g, sequenze)
+function [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g, sequenze)
     YTr={};
     XTr={};
     XTs={};
