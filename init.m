@@ -14,14 +14,33 @@ ref=eval(name);
 %         mkdir(string(strcat(tipo,{'\'},{torre})));
 %     end
 % end
-% time = datetime(sqldata{:,1});
-% time = convertTo(time,'excel');
-% time = transpose(time);
-% count = transpose(sqldata{:,2});
-% codice = transpose(sqldata{:,3});
-% diag= transpose(sqldata{:,4});
-% bozza_dati = {time;count;codice;diag};
-% clearvars time count codice diag;
+
+sqldata_grezzo=sqldata;
+switch torre
+    case "t13008"
+        t=find(sqldata{:,1}=="2021-08-11 00:08:52.0",1);
+        sqldata([1:t-1],:)=[];
+    case "t1025"
+        t=find(sqldata{:,1}=="2021-07-02 00:09:27.0",1);
+        sqldata([1:t-1],:)=[];
+    case "t16399"
+        t=find(sqldata{:,1}=="2021-09-23 00:07:31.0",1);
+        sqldata([1:t-1],:)=[];
+        t1=find(sqldata{:,1}=="2021-11-18 16:08:53.0",1);
+        t2=find(sqldata{:,1}=="2021-11-18 16:08:54.0",1,'last');
+        sqldata([t1:t2],:)=[];
+    case "t7286"
+        t=find(sqldata{:,1}=="2021-12-27 04:45:30.0",1);
+        sqldata([t:end],:)=[];
+end
+time = datetime(sqldata{:,1});
+time = convertTo(time,'excel');
+time = transpose(time);
+count = transpose(sqldata{:,2});
+codice = transpose(sqldata{:,3});
+diag= transpose(sqldata{:,4});
+bozza_dati = {time;count;codice;diag};
+clearvars time count codice diag;
 
 %%
 d=[datetime(2021,11,27,01,15,0), datetime(2021,11,27,01,30,00)];
@@ -72,7 +91,6 @@ end
 %     hold off;
 % end
  
-clearvars mystruct idx i var_iotbox var ref
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
 % save(addr);
