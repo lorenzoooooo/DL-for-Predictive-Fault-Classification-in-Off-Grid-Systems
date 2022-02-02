@@ -2,13 +2,13 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path='risultati\t1021\mincellvoltage_panelpower\3_1_78_1\3200_3300_3250_3350\dataset';
+dataset_path='risultati\t1021\mincellvoltage_panelpower_irradiation\3_1_72_1\3200_3300_3250_3350\dataset';
 load(dataset_path, 'X*', 'Y*','path');
 
-inputSize = 2;
-numHiddenUnits =10;
+inputSize = 3;
+numHiddenUnits =15;
 numClasses = 2;
-maxEpochs = 15;
+maxEpochs = 25;
 miniBatchSize = 5;
 miniBatchSizets = 5;
 lr=0.03;
@@ -89,6 +89,9 @@ layers = [ ...
 solvername="adam";
 options = trainingOptions(solvername, ...
     'InitialLearnRate', lr, ...
+    'LearnRateSchedule','piecewise', ...
+    'LearnRateDropFactor',0.75, ...
+    'LearnRateDropPeriod',5, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
@@ -97,10 +100,6 @@ options = trainingOptions(solvername, ...
     'Shuffle','never', ...
     'Verbose',1, ...
     'Plots','training-progress');   
-
-%      'LearnRateSchedule','piecewise', ...
-%     'LearnRateDropFactor',0.2, ...
-%     'LearnRateDropPeriod',3, ...
 
 %% Train LSTM Network
 % Train the LSTM network with the specified training options by using |trainNetwork|.
@@ -145,7 +144,11 @@ conf_chart=confusionchart(YTest,YPred);
 
 %% salvataggio
 currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
-file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(options.InitialLearnRate),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2))));
+if options.LearnRateSchedule=="none"  
+    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(round(acc,2))));
+else
+    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2)),'_piecewise'));
+end
 path_def=strcat(path,{'\'},file,{'\'});
 mkdir(path_def);
 savefig(currentfig,strcat(path_def,'training_progress.fig'));
