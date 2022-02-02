@@ -26,15 +26,15 @@ a=fgetl(fileID);
 while ischar(a)
     load(a);
 %     close all;
-    variabili.nome= ["min cell voltage";"panel power";"max cell voltage"];  %; "consumer current"
-    [sequenze, variabili]=estrazione_sequenze(data,variabili);                                            % suddivido in sequenze di 6 giorni
+    variabili.nome= ["min cell voltage";"panel power";"irradiation"];  %; "consumer current" "max cell voltage"
+    [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);                                            % suddivido in sequenze di 6 giorni
     [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
-    sequenze=normalizzazione(data,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
+    sequenze=normalizzazione(nuova_struct,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
 %     grafico(sequenze,variabili);
-    [XTr,YTr,XTs,YTs,XVs,YVs,tr,ts,vs]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
+    [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;
     a=fgetl(fileID);
 end
 fclose(fileID);
-% dataset1();
+dataset1();
