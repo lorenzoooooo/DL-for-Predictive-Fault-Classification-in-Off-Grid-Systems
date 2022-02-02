@@ -11,8 +11,8 @@
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
-int_predizione=24*3;
-proporzione=3;              
+int_predizione=24*1;
+proporzione=1;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3300;
 soglia_bad_maxcellv=3250;
@@ -26,12 +26,12 @@ a=fgetl(fileID);
 while ischar(a)
     load(a);
 %     close all;
-    variabili.nome= ["min cell voltage";"panel power";"irradiation"];  %; "consumer current" "max cell voltage"
-    [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);                                            % suddivido in sequenze di 6 giorni
-    [idx_b,idx_g]=sospetti(sequenze);                                          % identifico le sequenze patologiche
-    sequenze=normalizzazione(nuova_struct,sequenze,variabili);                                                 %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
+    variabili.nome= ["min cell voltage";"panel power"];  %; "consumer current" "max cell voltage" ;"irradiation"
+    [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);        % suddivido in sequenze di 6 giorni
+    [idx_b,idx_g]=sospetti(sequenze);                                           % identifico le sequenze patologiche
+    sequenze=normalizzazione(nuova_struct,sequenze,variabili);                  %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
 %     grafico(sequenze,variabili);
-    [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);   % Suddivido in Tr e Ts per una data torre
+    [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);                   % Suddivido in Tr e Ts per una data torre
     pulizia;
     salvataggio;
     a=fgetl(fileID);

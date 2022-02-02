@@ -2,16 +2,17 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path='risultati\t1021\mincellvoltage_panelpower_irradiation\3_1_72_1\3200_3300_3250_3350\dataset';
+dataset_path=['risultati\t1059' ...
+    '\mincellvoltage_panelpower\3_1_24_1\3200_3300_3250_3350\dataset'];
 load(dataset_path, 'X*', 'Y*','path');
 
-inputSize = 3;
+inputSize = 2;
 numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 25;
-miniBatchSize = 5;
-miniBatchSizets = 5;
-lr=0.03;
+miniBatchSize = 10;
+miniBatchSizets = 10;
+lr=0.05;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
 
@@ -98,7 +99,7 @@ options = trainingOptions(solvername, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
     'Shuffle','never', ...
-    'Verbose',1, ...
+    'Verbose',0, ...
     'Plots','training-progress');   
 
 %% Train LSTM Network
