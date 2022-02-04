@@ -1,7 +1,7 @@
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-load(name,name);
-ref=eval(name);
+% load(name,name);
+% ref=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
 %     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
@@ -14,8 +14,9 @@ ref=eval(name);
 %         mkdir(string(strcat(tipo,{'\'},{torre})));
 %     end
 % end
-
-sqldata_grezzo=sqldata;
+if exist('sqldata_grezzo','var') ==0
+    sqldata_grezzo=sqldata;
+end
 switch torre
     case "t13008"
         t=find(sqldata{:,1}=="2021-08-11 00:08:52.0",1);
@@ -82,14 +83,14 @@ for i=1:size(ref,1)
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
 
-% for i=1:size(coord,1)
-%     figure;
+for i=1:size(coord,1)
+    figure;
 %     plot(p{i,1}.time,p{i,1}.value,'r');
 %     hold on;
-%     plot(coord{i,1}.time, coord{i,1}.value,'b');
-%     title(coord{i,1}.name);
+    plot(coord{i,1}.time, coord{i,1}.value,'b');
+    title(coord{i,1}.name);
 %     hold off;
-% end
+end
  
 % addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
 % addr=char(addr);
