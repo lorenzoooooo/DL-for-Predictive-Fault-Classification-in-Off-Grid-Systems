@@ -20,23 +20,12 @@ for j=1:size(p,1)
     err=find(d1(1,:)>treshold); 
     
     %% Ottengo sequenze di 24 ore
-    % variabili=discrimina(variabili);    % da l'indice delle righe corrispondenti alle variabili che vogliamo usare in base al tipo di torre
-    
-    % for i=1:size(variabili.nome,1)
-    %     variabili.nb(i,1)=nome_cartella(variabili.nome(i,1));
-    % end
-%     sequenze={};
     i=1;
     temp=[];
     for i=1:size(dhour,2)
         if ~ismember(i,err)
             temp=[temp dhour(i)];
         end
-    %     seq=estraggo(data,dhour,i,variabili.righe);
-    %     sequenze{i,1}=seq;
-    %     if ismember(i,err)
-    %         sequenze{i,1}=[];
-    %     end
     end
     idx{j,1}=p{j,1}.time(temp);
     y{j,1}=temp;

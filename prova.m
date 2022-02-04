@@ -1,22 +1,41 @@
-duration(datetime(2021,11,27,01,24,06)-datetime(2021,07,02,05,24,28));
-a=ans;
-a=seconds(a);
-b=floor(a/900);
-x=find(coord{1,1}.time==datetime(2021,11,27,01,24,06));
-y=find(coord{1,1}.time==datetime(2021,07,02,05,24,28));
-c=x-y;
+% for i=1:size(variabili.nb,1)
+%     figure;
+%     for j=1:size(sequenze,1)
+%         plot(datetime(sequenze{j,1}.time,'convertfrom','excel'),sequenze{j,1}.(variabili.nb(i)));
+%         hold on;
+%     end
+%     title(variabili.nb(i));
+%     hold off;
+% end
+
+% 
+% a=find(YTrain=='0');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(1,:)); hold on; end
+% title('mincellv bad');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(2,:)); hold on; end
+% title('panelpower bad');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(3,:)); hold on; end
+% title('irradiation bad');
+% a=find(YTrain=='1');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(1,:)); hold on; end
+% title('mincellv good');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(2,:)); hold on; end
+% title('panelpower good');
+% figure; hold off; for i=1:size(a,1) plot(XTrain{a(i),1}(3,:)); hold on; end
+% title('irradiation good');
 
 
-x= convertTo(coord{1,1}.time,'excel');
-% j=[datetime(2021,11,27,01,24,06), datetime(2021,11,27,01,24,07)];
-% i=convertTo(j,'excel');
-% i=i(2)-i(1);
-y=coord{1,1}.value;
-z=[x(1):i:x(end)];
-a=interp1(x,y,z);
-j=[datetime(2021,11,27,01,15,0), datetime(2021,11,27,01,30,00)];
-i=convertTo(j,'excel');
-i=i(2)-i(1);
-c=[x(1):i:x(end)];
-b1=interp1(z,a,c);
-c=datetime(c,'ConvertFrom','excel');
+a=find(YTest=='0');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(1,:)); hold on; end
+title('mincellv bad');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(2,:)); hold on; end
+title('panelpower bad');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(3,:)); hold on; end
+title('irradiation bad');
+a=find(YTest=='1');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(1,:)); hold on; end
+title('mincellv good');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(2,:)); hold on; end
+title('panelpower good');
+figure; hold off; for i=1:size(a,1) plot(XTest{a(i),1}(3,:)); hold on; end
+title('irradiation good');

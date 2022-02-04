@@ -37,4 +37,4 @@ dataset=strcat(string(soglia_bad_mincellv),'_',string(soglia_good_mincellv),'_',
 path=strcat('risultati\',tralicci,{'\'},features,{'\'},parametri,{'\'},dataset,{'\'});
 path=string(path);
 mkdir(path);
-save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain","XVal","YVal","path","int_predizione", "lasso", "span","soglia_bad_mincellv", "soglia_good_mincellv", "soglia_bad_maxcellv", "soglia_good_maxcellv","quota_vs");
+save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain","XVal","YVal","path","int_predizione", "lasso", "span","soglia_bad_mincellv", "soglia_good_mincellv", "soglia_bad_maxcellv", "soglia_good_maxcellv","quota_vs","sequenze");

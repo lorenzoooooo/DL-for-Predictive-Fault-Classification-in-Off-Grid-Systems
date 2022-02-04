@@ -16,17 +16,6 @@ function [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g, sequenze)
     i_bad=[idx_b];
     i_good=[idx_g];
 
-%     switch torre
-%         case 't1021'
-%     %         a=~isempty(bad.mincellv{:,1});
-%     %         a=find(a);
-%     %         i_bad=[10:14];  %t1021 -- solo min cell volt
-%               i_bad= [intervallo];
-%         case 't1025'
-%     %         i_bad=[9:13];   %t1025 -- solo min cell volt
-%               i_bad= [intervallo];
-%     end
-
     %% nel caso in cui siano presenti sequenze negative e positive per una data torre
     if ~isempty(i_bad)                                  %spartisco gli indici delle sequenze sane tra train e test
         pari=mod(i_bad(:),2)==0;
