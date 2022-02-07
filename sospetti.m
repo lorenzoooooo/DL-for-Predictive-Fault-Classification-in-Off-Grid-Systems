@@ -100,7 +100,27 @@ int_pred=int_predizione;
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.bad.idx) 
-        idx_b=[idx_b [idx_b(counter)-int_pred:idx_b(counter)-1]];
+        if i <= int_pred
+            for j=1:i-1
+                x=sequenze{i}.time(1)-j;
+                y=sequenze{idx_g(counter)-j}.time(1);
+                if x==y
+                    idx_b=[idx_b idx_b(counter)-j];
+                else
+                    break;
+                end
+            end
+        else
+            for j=1:int_pred
+                x=sequenze{i}.time(1)-j;
+                y=sequenze{idx_b(counter)-j}.time(1);
+                if x==y
+                    idx_b=[idx_b idx_b(counter)-j];
+                else
+                    break;
+                end
+            end
+        end
         counter=counter+1;
     end
 end
@@ -109,8 +129,28 @@ idx_b=idx_b(idx_b>0);
 
 counter=1;
 for i=1:size(sequenze,1)
-    if ismember(i,mincellv.good.idx) 
-        idx_g=[idx_g [idx_g(counter)-int_pred:idx_g(counter)-1]];
+    if ismember(i,mincellv.good.idx)
+        if i <= int_pred
+            for j=1:i-1
+                x=sequenze{i}.time(1)-j;
+                y=sequenze{idx_g(counter)-j}.time(1);
+                if x==y
+                    idx_g=[idx_g idx_g(counter)-j];
+                else
+                    break;
+                end
+            end
+        else
+            for j=1:int_pred
+                x=sequenze{i}.time(1)-j;
+                y=sequenze{idx_g(counter)-j}.time(1);
+                if x==y
+                    idx_g=[idx_g idx_g(counter)-j];
+                else
+                    break;
+                end
+            end
+        end
         counter=counter+1;
     end
 end
