@@ -29,18 +29,18 @@ while ischar(a)
     variabili.nome= ["min cell voltage";"panel power";"irradiation"];  %; "consumer current" "max cell voltage" 
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);        % suddivido in sequenze di 6 giorni
     [idx_b,idx_g,a]=sospetti(sequenze);                                           % identifico le sequenze patologiche
-    b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-    title(strcat(torre,' sequenze patologiche'));
-    b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-    title(strcat(torre,' sequenze sane'));
-    figure; hold off; for i=1:size(sequenze,1) plot(datetime(sequenze{i}.time,'ConvertFrom','excel'),sequenze{i}.mincellvoltage); hold on; end
-    title(strcat(torre,' totalità delle sequenze'));
-% %     grafico(sequenze,variabili);
-%     sequenze=normalizzazione(nuova_struct,sequenze,variabili);                  %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
-%     [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);                   % Suddivido in Tr e Ts per una data torre
-%     pulizia;
-%     salvataggio;
+%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze patologiche'));
+%     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze sane'));
+%     figure; hold off; for i=1:size(sequenze,1) plot(datetime(sequenze{i}.time,'ConvertFrom','excel'),sequenze{i}.mincellvoltage); hold on; end
+%     title(strcat(torre,' totalità delle sequenze'));
+%     grafico(sequenze,variabili);
+    sequenze=normalizzazione(nuova_struct,sequenze,variabili);                  %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
+    [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);                   % Suddivido in Tr e Ts per una data torre
+    pulizia;
+    salvataggio;
     a=fgetl(fileID);
 end
 fclose(fileID);
-% dataset1();
+dataset1();
