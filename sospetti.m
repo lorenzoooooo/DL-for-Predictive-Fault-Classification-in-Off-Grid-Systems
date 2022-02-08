@@ -2,8 +2,8 @@ function [idx_b, idx_g,a] = sospetti (sequenze)
 global int_predizione;
 global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
 %% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
-idx_b=[];
-idx_g=[];
+idx_b=zeros(1,0);
+idx_g=zeros(1,0);
 %     mean_dy=[];
 %     dy_idx=[];
 %     for i=1:size(sequenze,1)
@@ -72,10 +72,10 @@ if isfield(sequenze{1,1},'mincellvoltage')
     mincellv.bad.seq=assegno_etichetta(mincellv.bad.idx,sequenze);
     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
     mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
-    idx_b=[idx_b mincellv.bad.idx];
-    idx_g=[idx_g mincellv.good.idx];
-    a{1}=idx_b;
-    a{2}=idx_g;
+%     idx_b=[idx_b mincellv.bad.idx];
+%     idx_g=[idx_g mincellv.good.idx];
+    a{1}=mincellv.bad.idx;
+    a{2}=mincellv.good.idx;
 end
 
 % if isfield(sequenze{1,1},'maxcellvoltage')
@@ -102,11 +102,9 @@ for i=1:size(sequenze,1)
     if ismember(i,mincellv.bad.idx) 
         if i > int_pred
             x=sequenze{i}.time(1)-int_pred;
-            y=sequenze{idx_b(counter)-int_pred}.time(1);
+            y=sequenze{mincellv.bad.idx(counter)-int_pred}.time(1);
             if x==y
-                idx_b=[idx_b idx_b(counter)-int_pred];
-            else
-                continue;
+                idx_b=[idx_b mincellv.bad.idx(counter)-int_pred];
             end
         end
         counter=counter+1;
@@ -120,11 +118,9 @@ for i=1:size(sequenze,1)
     if ismember(i,mincellv.good.idx)
         if i > int_pred
             x=sequenze{i}.time(1)-int_pred;
-            y=sequenze{idx_g(counter)-int_pred}.time(1);
+            y=sequenze{mincellv.good.idx(counter)-int_pred}.time(1);
             if x==y
-                idx_g=[idx_g idx_g(counter)-int_pred];
-            else
-                continue;
+                idx_g=[idx_g mincellv.good.idx(counter)-int_pred];
             end
         end
         counter=counter+1;
