@@ -78,22 +78,22 @@ if isfield(sequenze{1,1},'mincellvoltage')
     a{2}=idx_g;
 end
 
-if isfield(sequenze{1,1},'maxcellvoltage')
-    maxcellv.bad.soglia=soglia_bad_maxcellv;                                         % soglia critica patologica
-    maxcellv.good.soglia=soglia_good_maxcellv;                                        % soglia critica sana
-    for i=1:size(sequenze,1)
-        if isempty(sequenze{i,1})
-            continue;
-        end
-        maxcellv.mean(i)=mean(sequenze{i,1}.maxcellvoltage);
-    end
-    maxcellv.bad.idx=find(maxcellv.mean < maxcellv.bad.soglia);  
-    maxcellv.bad.seq=assegno_etichetta(maxcellv.bad.idx,sequenze);
-    maxcellv.good.idx=find(maxcellv.mean > maxcellv.good.soglia);
-    maxcellv.good.seq=assegno_etichetta(maxcellv.good.idx,sequenze);
-%     idx_b=[idx_b maxcellv.bad.idx];
-%     idx_g=[idx_g maxcellv.good.idx];
-end
+% if isfield(sequenze{1,1},'maxcellvoltage')
+%     maxcellv.bad.soglia=soglia_bad_maxcellv;                                         % soglia critica patologica
+%     maxcellv.good.soglia=soglia_good_maxcellv;                                        % soglia critica sana
+%     for i=1:size(sequenze,1)
+%         if isempty(sequenze{i,1})
+%             continue;
+%         end
+%         maxcellv.mean(i)=mean(sequenze{i,1}.maxcellvoltage);
+%     end
+%     maxcellv.bad.idx=find(maxcellv.mean < maxcellv.bad.soglia);  
+%     maxcellv.bad.seq=assegno_etichetta(maxcellv.bad.idx,sequenze);
+%     maxcellv.good.idx=find(maxcellv.mean > maxcellv.good.soglia);
+%     maxcellv.good.seq=assegno_etichetta(maxcellv.good.idx,sequenze);
+% %     idx_b=[idx_b maxcellv.bad.idx];
+% %     idx_g=[idx_g maxcellv.good.idx];
+% end
 
 %% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
 int_pred=int_predizione;
