@@ -1,6 +1,7 @@
-.asv
+*.asv
 *.txt
 digil/
 iotbox/
 iotbox-digil/
 risultati/*
+risultati_int/*
