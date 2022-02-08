@@ -26,16 +26,20 @@ a=fgetl(fileID);
 while ischar(a)
     load(a);
 %     close all;
-    variabili.nome= ["min cell voltage";"panel power";"irradiation"];  %; "consumer current" "max cell voltage" 
+    variabili.nome= ["min cell voltage";"panel power";"soc";"irradiation"];  %; "consumer current" "max cell voltage" "irradiation"
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);        % suddivido in sequenze di 6 giorni
-    [idx_b,idx_g,a]=sospetti(sequenze);                                           % identifico le sequenze patologiche
-%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+    [idx_b,idx_g,c]=sospetti(sequenze);                                           % identifico le sequenze patologiche
+
+%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
 %     title(strcat(torre,' sequenze patologiche'));
+%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
 %     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze sane a 7 giorni'));
+%     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
 %     title(strcat(torre,' sequenze sane'));
-%     figure; hold off; for i=1:size(sequenze,1) plot(datetime(sequenze{i}.time,'ConvertFrom','excel'),sequenze{i}.mincellvoltage); hold on; end
-%     title(strcat(torre,' totalità delle sequenze'));
 %     grafico(sequenze,variabili);
+
     sequenze=normalizzazione(nuova_struct,sequenze,variabili);                  %sottraggo il valor medio e divido per la varianza ogni riga di ogni sequenze eccetto il time stamp
     [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);                   % Suddivido in Tr e Ts per una data torre
     pulizia;
