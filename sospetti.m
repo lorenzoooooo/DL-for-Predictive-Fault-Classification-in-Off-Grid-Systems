@@ -72,10 +72,40 @@ if isfield(sequenze{1,1},'mincellvoltage')
     mincellv.bad.seq=assegno_etichetta(mincellv.bad.idx,sequenze);
     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
     mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
-%     idx_b=[idx_b mincellv.bad.idx];
-%     idx_g=[idx_g mincellv.good.idx];
     a{1}=mincellv.bad.idx;
     a{2}=mincellv.good.idx;
+    if ~isempty(mincellv.bad.idx)
+        i=mincellv.bad.idx(1);
+        j=find(mincellv.bad.idx==i);
+        counter=1;
+        while i<mincellv.bad.idx(end)
+            e=mincellv.bad.idx(j+1);
+            if e~=mincellv.bad.idx(j)+counter
+                i=mincellv.bad.idx(j+1);
+                counter=1;
+                j=find(mincellv.bad.idx==i);
+            else
+                mincellv.bad.idx(j+1)=[];
+                counter=counter+1;
+            end
+        end
+    end
+%     if ~isempty(mincellv.good.idx)
+%         i=mincellv.good.idx(1);
+%         j=find(mincellv.good.idx==i);
+%         counter=1;
+%         while i<mincellv.good.idx(end)
+%             e=mincellv.good.idx(j+1);
+%             if e~=mincellv.good.idx(j)+counter
+%                 i=mincellv.good.idx(j+1);
+%                 counter=1;
+%                 j=find(mincellv.good.idx==i);
+%             else
+%                 mincellv.good.idx(j+1)=[];
+%                 counter=counter+1;
+%             end
+%         end
+%     end
 end
 
 % if isfield(sequenze{1,1},'maxcellvoltage')
@@ -100,11 +130,13 @@ int_pred=int_predizione;
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.bad.idx) 
-        if i > int_pred
-            x=sequenze{i}.time(1)-int_pred;
-            y=sequenze{mincellv.bad.idx(counter)-int_pred}.time(1);
-            if x==y
-                idx_b=[idx_b mincellv.bad.idx(counter)-int_pred];
+        if i > int_pred(2)
+            x=sequenze{i}.time(1)-int_pred(1);
+            y=sequenze{mincellv.bad.idx(counter)-int_pred(1)}.time(1);
+            v=sequenze{i}.time(1)-int_pred(2);
+            w=sequenze{mincellv.bad.idx(counter)-int_pred(2)}.time(1);
+            if x==y && v==w
+                idx_b=[idx_b [(mincellv.bad.idx(counter)-int_pred(2)):(mincellv.bad.idx(counter)-int_pred(1))]];
             end
         end
         counter=counter+1;
@@ -116,11 +148,13 @@ idx_b=idx_b(idx_b>0);
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.good.idx)
-        if i > int_pred
-            x=sequenze{i}.time(1)-int_pred;
-            y=sequenze{mincellv.good.idx(counter)-int_pred}.time(1);
-            if x==y
-                idx_g=[idx_g mincellv.good.idx(counter)-int_pred];
+        if i > int_pred(2)
+            x=sequenze{i}.time(1)-int_pred(1);
+            y=sequenze{mincellv.good.idx(counter)-int_pred(1)}.time(1);
+            v=sequenze{i}.time(1)-int_pred(2);
+            w=sequenze{mincellv.good.idx(counter)-int_pred(2)}.time(1);
+            if x==y && v==w
+                idx_g=[idx_g [(mincellv.good.idx(counter)-int_pred(2)):(mincellv.good.idx(counter)-int_pred(1))]];
             end
         end
         counter=counter+1;
