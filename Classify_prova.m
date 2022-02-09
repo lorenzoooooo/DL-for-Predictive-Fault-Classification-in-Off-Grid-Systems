@@ -2,15 +2,15 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati\t16239_t13008_t16399_t1059_t7286_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_7_1\3200_3350_3250_3350\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1025_t1021\mincellvoltage_panelpower_soc\3_1_7_3\3200_3350_3250_3350\dataset'];
 load(dataset_path, 'X*', 'Y*','path');
 
-inputSize = 4;
+inputSize = 3;
 numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 10;
-miniBatchSize = 16;
-miniBatchSizets = 16;
+miniBatchSize = 10;
+miniBatchSizets = 14;
 lr=0.03;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
