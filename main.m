@@ -11,7 +11,7 @@
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
-int_predizione=1;
+int_predizione=[7,15];
 proporzione=2;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3350;
@@ -46,4 +46,4 @@ while ischar(a)
     a=fgetl(fileID);
 end
 fclose(fileID);
-dataset1();
+% dataset1();
