@@ -2,7 +2,7 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_7_15\t16239_t13008_t16399_t1059_t1025_t7286_t1021\mincellvoltage_panelpower\3_1_1_2\3200_3350_3250_3350\dataset'];
+dataset_path=['risultati_7_15\t16239_t13008_t16399_t1059_t1025_t7286_t1021\mincellvoltage_panelpower\3_1_7_2\3200_3350_3250_3350\dataset'];
 load(dataset_path, 'X*', 'Y*','path');
 
 inputSize = 2;

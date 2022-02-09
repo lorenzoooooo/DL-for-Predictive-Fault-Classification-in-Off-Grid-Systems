@@ -32,7 +32,7 @@ fclose(fileID);
 tralicci(1)=[];
 tralicci=nome_cartella(tralicci);
 features=nome_cartella(variabili.nome);
-parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione));  %,'_',string(quota_vs)
+parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione(1)),'_',string(proporzione));  %,'_',string(quota_vs)
 dataset=strcat(string(soglia_bad_mincellv),'_',string(soglia_good_mincellv),'_',string(soglia_bad_maxcellv),'_',string(soglia_good_maxcellv));
 path=strcat('risultati_7_15\',tralicci,{'\'},features,{'\'},parametri,{'\'},dataset,{'\'});
 path=string(path);
