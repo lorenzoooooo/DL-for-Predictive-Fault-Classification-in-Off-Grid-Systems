@@ -11,7 +11,7 @@
 global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
 lasso=3;
 span=1;
-int_predizione=1;
+int_predizione=7;
 proporzione=2;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3350;
@@ -29,10 +29,10 @@ while ischar(a)
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);        % suddivido in sequenze di 6 giorni
     [idx_b,idx_g,c]=sospetti(sequenze);                                           % identifico le sequenze patologiche
 %     close all;
-%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze patologiche'));
-%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
+    b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+    title(strcat(torre,' sequenze patologiche'));
+    b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+    title(strcat(torre,' sequenze patologiche a 7 giorni'));
 %     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
 %     title(strcat(torre,' sequenze sane a 7 giorni'));
 %     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
