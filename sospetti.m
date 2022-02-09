@@ -127,16 +127,60 @@ end
 
 %% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
 int_pred=int_predizione;
+% counter=1;
+% for i=1:size(sequenze,1)
+%     if ismember(i,mincellv.bad.idx) 
+%         if i > int_pred(2)
+%             x=sequenze{i}.time(1)-int_pred(1);
+%             y=sequenze{mincellv.bad.idx(counter)-int_pred(1)}.time(1);
+%             v=sequenze{i}.time(1)-int_pred(2);
+%             w=sequenze{mincellv.bad.idx(counter)-int_pred(2)}.time(1);
+%             if x==y && v==w
+%                 idx_b=[idx_b [(mincellv.bad.idx(counter)-int_pred(2)):(mincellv.bad.idx(counter)-int_pred(1))]];
+%             end
+%         end
+%         counter=counter+1;
+%     end
+% end
+% idx_b=unique(idx_b);
+% idx_b=idx_b(idx_b>0);
+
 counter=1;
 for i=1:size(sequenze,1)
-    if ismember(i,mincellv.bad.idx) 
-        if i > int_pred(2)
-            x=sequenze{i}.time(1)-int_pred(1);
-            y=sequenze{mincellv.bad.idx(counter)-int_pred(1)}.time(1);
-            v=sequenze{i}.time(1)-int_pred(2);
-            w=sequenze{mincellv.bad.idx(counter)-int_pred(2)}.time(1);
-            if x==y && v==w
-                idx_b=[idx_b [(mincellv.bad.idx(counter)-int_pred(2)):(mincellv.bad.idx(counter)-int_pred(1))]];
+    if ismember(i,mincellv.bad.idx)
+        j=int_pred(1);
+        k=int_pred(1);
+        if i<=int_pred(2) & i>=int_pred(1)
+            while k<i
+                x=sequenze{i}.time(1)-k;
+                y=sequenze{mincellv.bad.idx(counter)-j}.time(1);
+                if x==y
+                    idx_b=[idx_b mincellv.bad.idx(counter)-j];
+                    j=j+1;
+                    k=k+1;
+                elseif (j+x-y)<i
+                    idx_b=[idx_b mincellv.bad.idx(counter)-j];
+                    j=j+1;
+                    k=k+x-y;
+                else
+                    break;
+                end
+            end
+        elseif i>int_pred(2)
+            while k<int_pred(2)
+                x=sequenze{i}.time(1)-k;
+                y=sequenze{mincellv.bad.idx(counter)-j}.time(1);
+                if x==y
+                    idx_b=[idx_b mincellv.bad.idx(counter)-j];
+                    j=j+1;
+                    k=k+1;
+                elseif (j+x-y)<int_pred(2)
+                    idx_b=[idx_b mincellv.bad.idx(counter)-j];
+                    j=j+1;
+                    k=k+x-y;
+                else
+                    break;
+                end
             end
         end
         counter=counter+1;
@@ -148,13 +192,41 @@ idx_b=idx_b(idx_b>0);
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.good.idx)
-        if i > int_pred(2)
-            x=sequenze{i}.time(1)-int_pred(1);
-            y=sequenze{mincellv.good.idx(counter)-int_pred(1)}.time(1);
-            v=sequenze{i}.time(1)-int_pred(2);
-            w=sequenze{mincellv.good.idx(counter)-int_pred(2)}.time(1);
-            if x==y && v==w
-                idx_g=[idx_g [(mincellv.good.idx(counter)-int_pred(2)):(mincellv.good.idx(counter)-int_pred(1))]];
+        if i<=int_pred(2) & i>=int_pred(1)
+            j=int_pred(1);
+            k=int_pred(1);
+            while k<i
+                x=sequenze{i}.time(1)-k;
+                y=sequenze{mincellv.good.idx(counter)-j}.time(1);
+                if x==y
+                    idx_g=[idx_g mincellv.good.idx(counter)-j];
+                    j=j+1;
+                    k=k+1;
+                elseif (j+x-y)<i
+                    idx_g=[idx_g mincellv.good.idx(counter)-j];
+                    j=j+1;
+                    k=k+x-y;
+                else
+                    break;
+                end
+            end
+        elseif i>int_pred(2)
+            j=int_pred(1);
+            k=int_pred(1);
+            while k<int_pred(2)
+                x=sequenze{i}.time(1)-k;
+                y=sequenze{mincellv.good.idx(counter)-j}.time(1);
+                if x==y
+                    idx_g=[idx_g mincellv.good.idx(counter)-j];
+                    j=j+1;
+                    k=k+1;
+                elseif (j+x-y)<int_pred(2)
+                    idx_g=[idx_g mincellv.good.idx(counter)-j];
+                    j=j+1;
+                    k=k+x-y;
+                else
+                    break;
+                end
             end
         end
         counter=counter+1;
@@ -162,3 +234,21 @@ for i=1:size(sequenze,1)
 end
 idx_g=unique(idx_g);
 idx_g=idx_g(idx_g>0);
+
+% counter=1;
+% for i=1:size(sequenze,1)
+%     if ismember(i,mincellv.good.idx)
+%         if i > int_pred(2)
+%             x=sequenze{i}.time(1)-int_pred(1);
+%             y=sequenze{mincellv.good.idx(counter)-int_pred(1)}.time(1);
+%             v=sequenze{i}.time(1)-int_pred(2);
+%             w=sequenze{mincellv.good.idx(counter)-int_pred(2)}.time(1);
+%             if x==y && v==w
+%                 idx_g=[idx_g [(mincellv.good.idx(counter)-int_pred(2)):(mincellv.good.idx(counter)-int_pred(1))]];
+%             end
+%         end
+%         counter=counter+1;
+%     end
+% end
+% idx_g=unique(idx_g);
+% idx_g=idx_g(idx_g>0);
