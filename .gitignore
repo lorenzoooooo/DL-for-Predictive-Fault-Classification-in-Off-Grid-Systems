@@ -1,5 +1,7 @@
 *.asv
 *.txt
+*.prf
+schemer*
 digil/
 iotbox/
 iotbox-digil/
