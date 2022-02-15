@@ -23,7 +23,6 @@ idx_g=zeros(1,0);
 %             bad.dy{dy_idx(1,i),1}=sequenze{dy_idx(1,i),1};
 %         end
 %     end
-
 % if isfield(sequenze{1,1},'panelpower')
 %     pp.bad.seq=cell(size(sequenze,1),1);
 %     pp.good.seq=cell(size(sequenze,1),1);

@@ -1,6 +1,6 @@
 function [seq,variabili] = estrazione_sequenze(p,nuova_struct,variabili)
 global lasso span;
-%% Trovo le sequenze che sono più lunghe di 31 ore
+% Trovo le sequenze che sono più lunghe di 31 ore
 variabili.nb=string();                                                      % contiene il nome delle variabili senza spazi
 for i=1:size(variabili.nome,1)
     variabili.nb(i,1)=nome_cartella(variabili.nome(i,1));
@@ -14,12 +14,12 @@ for j=1:size(p,1)
         d1(i-1)= d0(i)-d0(i-1);
     end
     d1=[nan d1];
-    tolleranza=7;                    % copre quasi tutto l'intervallo di dhour
+    tolleranza=7;            
     treshold=24 + tolleranza;       
     treshold=hours(treshold);
     err=find(d1(1,:)>treshold); 
     
-    %% Ottengo sequenze di 24 ore
+    % Ottengo sequenze di 24 ore
     i=1;
     temp=[];
     for i=1:size(dhour,2)
@@ -28,6 +28,8 @@ for j=1:size(p,1)
         end
     end
     idx{j,1}=p{j,1}.time(temp);
+
+
     y{j,1}=temp;
 end
 for i = 1:size(p,1)
@@ -38,7 +40,8 @@ idx=idx{aa,1};                      % Scelgo il dato col maggiore numero di camp
 idx.Second=00;
 idx.Minute=00;
 idx.Hour=00;
-idx.Format='dd-MMM-yyy'; 
+
+idx.Format='dd-MMM-yyy';                                                                                    
 idx = unique(idx, 'stable');        % cancello le ripetizioni
 seq={};
 counter=1;
@@ -59,7 +62,7 @@ for i=1:span:size(idx,2)
         end
     end
 end
-% panel_power= pp_dy (sequenze);
+
 %% creo sequenze di "lasso" giorni scalate di "span"
 
 % treshold_lasso_max=treshold*lasso;

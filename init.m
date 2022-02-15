@@ -1,7 +1,7 @@
 % global tipo name torre;
 % name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
-% load(name,name);
-% ref=eval(name);
+load(name,name);
+ref=eval(name);
 % torre=input('numero della torre preceduto da t:','s');
 % if name == "var"
 %     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
@@ -63,16 +63,13 @@ for i=1:size(ref,1)
     mystruct.diag=bozza_dati{4,1}(idx);
     coord{i,1}=mystruct;
 end
-p=coord;
-for i=1:size(ref,1)
-    p{i,1}.name=nome_cartella(ref{i,1});
-end
 
 for i=1:size(coord,1)
     coord{i,1} = interpola(coord{i,1});
+    p{i,1}=coord{i,1};
+    p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
     coord{i,1} = traslazione(coord{i,1},max_timeout, std_freq);
     coord{i,1} = sovracampiona(coord{i,1},final_freq);
-    p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
 end
 
 coord = allineo(coord);
@@ -80,6 +77,7 @@ coord = allineo(coord);
 nuova_struct.time=coord{1,1}.time;
 for i=1:size(ref,1)
     coord{i,1}.name=nome_cartella(ref{i,1});
+    p{i,1}.name=coord{i,1}.name;
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
 
