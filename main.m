@@ -8,17 +8,18 @@
 % Torre è l'id della torre, name dice se la stazione contiene la stazione 
 % meteo o meno e tipo differenzia tra digil pura e digil_iotbox
  
-global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione; % quota_vs;
+global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv proporzione;
 lasso=3;
 span=1;
 int_predizione=[7,15];
 proporzione=3;              
 soglia_bad_mincellv=3200;
 soglia_good_mincellv=3350;
-soglia_bad_maxcellv=3250;
-soglia_good_maxcellv=3350;
-%quota_vs=3;
 
+% global soglia_bad_maxcellv soglia_good_maxcellv quota_vs;
+% soglia_bad_maxcellv=3250;
+% soglia_good_maxcellv=3350;
+%quota_vs=3;
 %% estraggo e etichetto le sequenze
 fclose('all');
 fileID = fopen('mat.txt','r');
