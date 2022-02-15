@@ -8,7 +8,7 @@
 % Torre è l'id della torre, name dice se la stazione contiene la stazione 
 % meteo o meno e tipo differenzia tra digil pura e digil_iotbox
  
-global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
+global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione; % quota_vs;
 lasso=3;
 span=1;
 int_predizione=[7,15];
