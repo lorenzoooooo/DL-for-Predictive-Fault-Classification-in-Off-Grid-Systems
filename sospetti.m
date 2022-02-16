@@ -1,7 +1,7 @@
 function [idx_b, idx_g,a] = sospetti (sequenze)
 global int_predizione span;
 global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
-%% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
+% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
 idx_b=zeros(1,0);
 idx_g=zeros(1,0);
 %     mean_dy=[];
@@ -17,9 +17,6 @@ idx_g=zeros(1,0);
 %     dy_idx=find(mean_dy<soglia);  
 %     if ~isempty(dy_idx)
 %         for i=1:size(dy_idx,2)
-%             if isempty(dy_idx(1,i))
-%                 continue;
-%             end
 %             bad.dy{dy_idx(1,i),1}=sequenze{dy_idx(1,i),1};
 %         end
 %     end
@@ -32,9 +29,6 @@ idx_g=zeros(1,0);
 %     pp.bad.idx=find(pp.seq_mean<pp.bad.soglia);  
 %     if ~isempty(pp.bad.idx)
 %         for i=1:size(pp.bad.idx,1)
-%             if isempty(pp.bad.idx(i))
-%                 continue;
-%             end
 %             pp.bad.seq{pp.bad.idx(i),1}=sequenze{pp.bad.idx(i),1};
 %         end
 %     end
@@ -51,31 +45,26 @@ idx_g=zeros(1,0);
 %     end
 % end
 
-%% in questo modo prendo solo le sequenze a 7 giorni precisi da tutti gli eventi di guasto. Ossia se ho sequenze consecutive in bad.idx le tengo tutte e prendo per ognuna la sequenza 7 giorni prima.
+% in questo modo prendo solo le sequenze a 7 giorni precisi da tutti gli eventi di guasto. Ossia se ho sequenze consecutive in bad.idx le tengo tutte e prendo per ognuna la sequenza 7 giorni prima.
+
 if isfield(sequenze{1,1},'mincellvoltage')
-    mincellv.bad.soglia=soglia_bad_mincellv;                                         % soglia critica patologica
-    mincellv.good.soglia=soglia_good_mincellv;                                        % soglia critica sana
+    mincellv.bad.soglia=soglia_bad_mincellv;    % soglia critica patologica
+    mincellv.good.soglia=soglia_good_mincellv;  % soglia critica sana
     mincellv.bad.idx=zeros(1,0);
     for i=1:size(sequenze,1)
-        if isempty(sequenze{i,1})
-            continue;
-        end
         mincellv.mean(i)=mean(sequenze{i,1}.mincellvoltage);
         z=find(sequenze{i,1}.mincellvoltage<=mincellv.bad.soglia,1);
         if ~isempty(z)
             mincellv.bad.idx=[mincellv.bad.idx i];
         end
     end
-%     mincellv.bad.idx=find(mincellv.mean < mincellv.bad.soglia); 
-    mincellv.bad.seq=assegno_etichetta(mincellv.bad.idx,sequenze);
     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
-    mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
     a{1}=mincellv.bad.idx;
     a{2}=mincellv.good.idx;
 end
 
 
-%% in questo modo prendo solo le sequenze a 7 giorni precisi dal primo evento di guasto. Ossia se ho sequenze consecutive in bad.idx tengo solo la prima e poi prenderò la sequenza 7 giorni prima di questa.
+% in questo modo prendo solo le sequenze a 7 giorni precisi dal primo evento di guasto. Ossia se ho sequenze consecutive in bad.idx tengo solo la prima e poi prenderò la sequenza 7 giorni prima di questa.
 % if isfield(sequenze{1,1},'mincellvoltage')
 %     mincellv.bad.soglia=soglia_bad_mincellv;                                         % soglia critica patologica
 %     mincellv.good.soglia=soglia_good_mincellv;                                        % soglia critica sana
@@ -92,7 +81,6 @@ end
 %     end
 %     mincellv.bad.seq=assegno_etichetta(mincellv.bad.idx,sequenze);
 %     mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
-%     mincellv.good.seq=assegno_etichetta(mincellv.good.idx,sequenze);
 %     a{1}=mincellv.bad.idx;
 %     a{2}=mincellv.good.idx;
 %     if ~isempty(mincellv.bad.idx)
@@ -133,20 +121,16 @@ end
 %     maxcellv.bad.soglia=soglia_bad_maxcellv;                                         % soglia critica patologica
 %     maxcellv.good.soglia=soglia_good_maxcellv;                                        % soglia critica sana
 %     for i=1:size(sequenze,1)
-%         if isempty(sequenze{i,1})
-%             continue;
-%         end
 %         maxcellv.mean(i)=mean(sequenze{i,1}.maxcellvoltage);
 %     end
 %     maxcellv.bad.idx=find(maxcellv.mean < maxcellv.bad.soglia);  
-%     maxcellv.bad.seq=assegno_etichetta(maxcellv.bad.idx,sequenze);
 %     maxcellv.good.idx=find(maxcellv.mean > maxcellv.good.soglia);
-%     maxcellv.good.seq=assegno_etichetta(maxcellv.good.idx,sequenze);
 % %     idx_b=[idx_b maxcellv.bad.idx];
 % %     idx_g=[idx_g maxcellv.good.idx];
 % end
 
-%% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
+% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
+
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.bad.idx) 
@@ -178,3 +162,4 @@ for i=1:size(sequenze,1)
 end
 idx_g=unique(idx_g);
 idx_g=idx_g(idx_g>0);
+
