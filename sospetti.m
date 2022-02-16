@@ -126,7 +126,7 @@ end
 % end
 
 %% se prendo le sequenze dalla prima fino all'ultima di bad.mincellv
-int_pred=int_predizione;
+%  int_pred=int_predizione;
 % counter=1;
 % for i=1:size(sequenze,1)
 %     if ismember(i,mincellv.bad.idx) 
@@ -148,9 +148,9 @@ int_pred=int_predizione;
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.bad.idx)
-        j=int_pred(1);
-        k=int_pred(1);
-        if i<=int_pred(2) & i>=int_pred(1)
+        j=int_predizione(1);
+        k=int_predizione(1);
+        if i<=int_predizione(2) & i>=int_predizione(1)
             while k<i
                 x=sequenze{i}.time(1)-k;
                 y=sequenze{mincellv.bad.idx(counter)-j}.time(1);
@@ -166,15 +166,15 @@ for i=1:size(sequenze,1)
                     break;
                 end
             end
-        elseif i>int_pred(2)
-            while k<int_pred(2)
+        elseif i>int_predizione(2)
+            while k<int_predizione(2)
                 x=sequenze{i}.time(1)-k;
                 y=sequenze{mincellv.bad.idx(counter)-j}.time(1);
                 if x==y
                     idx_b=[idx_b mincellv.bad.idx(counter)-j];
                     j=j+1;
                     k=k+1;
-                elseif (j+x-y)<int_pred(2)
+                elseif (j+x-y)<int_predizione(2)
                     idx_b=[idx_b mincellv.bad.idx(counter)-j];
                     j=j+1;
                     k=k+x-y;
