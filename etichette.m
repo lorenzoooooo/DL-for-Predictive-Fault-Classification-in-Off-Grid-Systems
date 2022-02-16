@@ -45,10 +45,7 @@ function [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g, sequenze)
         end
     end
     
-
-   
-    
-    %creo cell array XTrain e XTest contenenti le sequenze e assegno le
+    %% creo cell array XTrain e XTest contenenti le sequenze e assegno le
     %etichette con gli array categorici YTrain e YTest
     k=1;
     h=1;
