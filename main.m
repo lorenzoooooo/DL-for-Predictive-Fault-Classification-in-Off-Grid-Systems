@@ -14,9 +14,10 @@ span=1;
 int_predizione=7;
 proporzione=3;              
 soglia_bad_mincellv=3200;
-soglia_good_mincellv=3350;
+
 
 % global soglia_bad_maxcellv soglia_good_maxcellv quota_vs;
+% soglia_good_mincellv=3350;
 % soglia_bad_maxcellv=3250;
 % soglia_good_maxcellv=3350;
 %quota_vs=3;
@@ -30,6 +31,14 @@ while ischar(a)
     variabili.nome= ["min cell voltage";"panel power";"soc"];             % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);  % suddivido in sequenze di 3 giorni
     [idx_b,idx_g,c]=sospetti(sequenze);                                   % identifico le sequenze patologiche
+
+%     b=c{2}; figure; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'g'); hold on; end
+%     b=c{1}; figure; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'r'); hold on; end
+%     title(torre);
+% %     b=idx_g; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'g'); hold on; end
+%     b=idx_b; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'color','#EDB120'); hold on; end
+% %     title(strcat(torre,'a 7 giorni'));
+
     sequenze=normalizzazione(nuova_struct,sequenze,variabili); % sottraggo il valor medio e divido per la deviazione standard 
     [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);  % Suddivido in Train e Test set
     pulizia;
@@ -41,16 +50,18 @@ dataset1();
 
 %     grafico(sequenze,variabili);
 %     close all;
-    b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
-    title(strcat(torre,' sequenze patologiche'));
-    b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
-    title(strcat(torre,' sequenze patologiche a 7 giorni'));
-    b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-    title(strcat(torre,' sequenze patologiche'));
-    b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-    title(strcat(torre,' sequenze patologiche a 7 giorni'));
+%     b=idx_g; figure; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'g'); hold on; end
+%         title(strcat(torre,' sequenze sane')); hold off
+%     b=idx_b; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'r'); hold on; end
+%         title(strcat(torre,' sequenze patologiche'));
+%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
+%     title(strcat(torre,' sequenze patologiche'));
+%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
+%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
+% 
+% 
+% 
+%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
 %     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
 %     title(strcat(torre,' sequenze sane a 7 giorni'));
-%     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze sane'));
-%     grafico(sequenze,variabili);
