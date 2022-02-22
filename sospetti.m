@@ -1,6 +1,6 @@
 function [idx_b, idx_g,a] = sospetti (sequenze)
 global int_predizione span;
-global soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
+global soglia_bad_mincellv; % soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
 % Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
 idx_b=zeros(1,0);
 idx_g=zeros(1,0);
@@ -49,16 +49,18 @@ idx_g=zeros(1,0);
 
 if isfield(sequenze{1,1},'mincellvoltage')
     mincellv.bad.soglia=soglia_bad_mincellv;    % soglia critica patologica
-    mincellv.good.soglia=soglia_good_mincellv;  % soglia critica sana
+    %mincellv.good.soglia=soglia_good_mincellv;  % soglia critica sana
     mincellv.bad.idx=zeros(1,0);
+    mincellv.good.idx=zeros(1,0);
     for i=1:size(sequenze,1)
-        mincellv.mean(i)=mean(sequenze{i,1}.mincellvoltage);
+%         mincellv.mean(i)=mean(sequenze{i,1}.mincellvoltage);
         z=find(sequenze{i,1}.mincellvoltage<=mincellv.bad.soglia,1);
         if ~isempty(z)
             mincellv.bad.idx=[mincellv.bad.idx i];
+        else
+            mincellv.good.idx=[mincellv.good.idx i];
         end
     end
-    mincellv.good.idx=find(mincellv.mean > mincellv.good.soglia);
     a{1}=mincellv.bad.idx;
     a{2}=mincellv.good.idx;
 end
@@ -162,4 +164,3 @@ for i=1:size(sequenze,1)
 end
 idx_g=unique(idx_g);
 idx_g=idx_g(idx_g>0);
-
