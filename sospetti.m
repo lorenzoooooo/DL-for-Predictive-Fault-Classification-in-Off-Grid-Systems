@@ -131,9 +131,9 @@ idx_b=idx_b(idx_b>0);
 counter=1;
 for i=1:size(sequenze,1)
     if ismember(i,mincellv.good.idx)
-        if i<=int_pred(2) & i>=int_pred(1)
-            j=int_pred(1);
-            k=int_pred(1);
+        if i<=int_predizione(2) & i>=int_predizione(1)
+            j=int_predizione(1);
+            k=int_predizione(1);
             while k<i
                 x=sequenze{i}.time(1)-k;
                 y=sequenze{mincellv.good.idx(counter)-j}.time(1);
@@ -149,17 +149,17 @@ for i=1:size(sequenze,1)
                     break;
                 end
             end
-        elseif i>int_pred(2)
-            j=int_pred(1);
-            k=int_pred(1);
-            while k<int_pred(2)
+        elseif i>int_predizione(2)
+            j=int_predizione(1);
+            k=int_predizione(1);
+            while k<int_predizione(2)
                 x=sequenze{i}.time(1)-k;
                 y=sequenze{mincellv.good.idx(counter)-j}.time(1);
                 if x==y
                     idx_g=[idx_g mincellv.good.idx(counter)-j];
                     j=j+1;
                     k=k+1;
-                elseif (j+x-y)<int_pred(2)
+                elseif (j+x-y)<int_predizione(2)
                     idx_g=[idx_g mincellv.good.idx(counter)-j];
                     j=j+1;
                     k=k+x-y;
