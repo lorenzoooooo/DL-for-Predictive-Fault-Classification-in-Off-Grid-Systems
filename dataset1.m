@@ -1,5 +1,5 @@
 function []=dataset1()
-global lasso span int_predizione soglia_bad_mincellv soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv proporzione quota_vs;
+global lasso span int_predizione soglia_bad_mincellv rapporto proporzione;
 YTrain=categorical();
 XTrain={};
 XTest={};
@@ -26,7 +26,6 @@ while ischar(a)                                         %ciclo che prende i dati
 end
 fclose(fileID);
 
-
 %     for i=1:size(XVs,1)                                 %Mergio tutti i Tsset delle singole torri in uno solo globale
 %         XVal=[XVal; XVs{i,1}];
 %         YVal=[YVal; YVs(i,1)];
@@ -36,10 +35,10 @@ tralicci(1)=[];
 
 tralicci=nome_cartella(tralicci);
 features=nome_cartella(variabili.nome);
-parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione));                                                            %,'_',string(quota_vs)
+parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione),'_',string(rapporto));                                                            %,'_',string(quota_vs)
 soglia=string(soglia_bad_mincellv);
 path=strcat('risultati_int\',tralicci,{'\'},features,{'\'},parametri,{'\'},soglia,{'\'});
 path=string(path);
 mkdir(path);
-save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain","path","int_predizione", "lasso", "span", "proporzione","soglia_bad_mincellv","sequenze");
+save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain","path","int_predizione", "lasso", "span", "proporzione","soglia_bad_mincellv", "rapporto","sequenze");
 
