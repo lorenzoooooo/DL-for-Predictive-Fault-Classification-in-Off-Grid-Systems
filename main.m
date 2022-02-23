@@ -11,7 +11,7 @@
 global lasso span int_predizione soglia_bad_mincellv proporzione rapporto;
 lasso=3;
 span=1;
-int_predizione=3;
+int_predizione=1;
 proporzione=3;              
 soglia_bad_mincellv=3200;
 rapporto=1/4;
@@ -29,7 +29,7 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili.nome= ["min cell voltage";"panel power";"soc";"irradiation"; "tot battery current"];             % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
+    variabili.nome= ["min cell voltage";"panel power";"tot battery current"];             % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);  % suddivido in sequenze di 3 giorni
     [idx_b,idx_g,c]=sospetti(sequenze);                                   % identifico le sequenze patologiche
 
@@ -43,7 +43,6 @@ while ischar(a)
 %     title(strcat(torre,' sequenze sane a 7 giorni'));
 
     sequenze=normalizzazione(nuova_struct,sequenze,variabili); % sottraggo il valor medio e divido per la deviazione standard 
-%     [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);  % Suddivido in Train e Test set
     [X,Y]=etichette(idx_b,idx_g,sequenze);
     pulizia;
     salvataggio;

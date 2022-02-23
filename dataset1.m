@@ -29,16 +29,12 @@ fclose(fileID);
 
 x=[1:size(X_sane,1)];
 a=randsample(x,round(rapporto*numel(x)));
-
 y=[1:size(X_patologiche,1)];
 b=randsample(y,round(rapporto*numel(y)));
-
 XTest=[X_sane(a); X_patologiche(b)];
 YTest=[Y_sane(a); Y_patologiche(b)];
-
 temp_a= find(~ismember(x,a));
 temp_b= find(~ismember(y,b));
-
 XTrain=[X_sane(temp_a); X_patologiche(temp_b)];
 YTrain=[Y_sane(temp_a); Y_patologiche(temp_b)];
 
