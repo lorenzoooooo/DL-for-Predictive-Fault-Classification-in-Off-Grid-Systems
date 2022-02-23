@@ -69,13 +69,13 @@ testX={};
             'SequenceLength','longest');
         end
 %accuracy    
-        [cm(:,:,z),order]=confusionmat(testY,YPred(:,z),'Order',categories(Y));     
+        [cm(:,:,z),order]=confusionmat(Y,YPred(:,z),'Order',categories(Y));     
         figure;
         cm_c= confusionchart(cm(:,:,z),order);
         cm_c.Title=sprintf('Confusion matrix on run %i',z);
         cm_c.RowSummary = 'row-normalized';
         cm_c.ColumnSummary = 'column-normalized';
-        acc(z,1) = sum(YPred(:,z) == testY)./numel(testY);
+        acc(z,1) = sum(YPred(:,z) == Y)./numel(Y);
         fprintf('\t--- Final accuracy on run %i: %.2f%% ---\n\n', z, 100*acc(z,1));
         drawnow;
     end
