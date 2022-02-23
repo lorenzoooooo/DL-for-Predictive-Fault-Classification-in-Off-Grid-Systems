@@ -81,15 +81,13 @@ for i=1:size(ref,1)
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
 
-for i=1:size(coord,1)
-    figure;
-%     plot(p{i,1}.time,p{i,1}.value,'r');
-%     hold on;
-    plot(coord{i,1}.time, coord{i,1}.value,'b');
-    title(coord{i,1}.name);
-%     hold off;
-end
+% 
+% for i=1:size(coord,1)
+%     figure;
+% %     plot(p{i,1}.time,p{i,1}.value,'r');
+% %     hold on;
+%     plot(coord{i,1}.time, coord{i,1}.value,'b');
+%     title(coord{i,1}.name);
+% %     hold off;
+% end
  
-% addr=strcat(tipo,{'\'},{torre},{'\'},{torre});
-% addr=char(addr);
-% save(addr);

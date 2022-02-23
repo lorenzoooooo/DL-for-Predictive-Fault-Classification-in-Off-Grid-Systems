@@ -2,23 +2,25 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1025_t1021\mincellvoltage_panelpower_soc\3_1_7_3\3200_3350_3250_3350\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\3_1_3_3_0.25\3200\dataset'];
 load(dataset_path, 'X*', 'Y*','path');
 
-inputSize = 3;
-numHiddenUnits =15;
+inputSize = 5;
+numHiddenUnits =25;
 numClasses = 2;
-maxEpochs = 10;
-miniBatchSize = 10;
-miniBatchSizets = 14;
-lr=0.03;
+maxEpochs = 15;
+miniBatchSize = 36;
+miniBatchSizets = 13;
+lr=0.04;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
 
-figure
-plot(XTrain{1}')
+figure;
+d=[1:size(XTrain,1)];
+d=randsample(d,1);
+plot(XTrain{d}')
 xlabel("Time Step")
-title("Training Observation 1")
+title(strcat("Training Observation ",string(YTrain(d))));
 numFeatures = size(XTrain{1},1);
 legend("Feature " + string(1:numFeatures),'Location','northeastoutside')
 %% Prepare Data for Padding
@@ -30,8 +32,6 @@ legend("Feature " + string(1:numFeatures),'Location','northeastoutside')
 % the training data by sequence length, and choose a mini-batch size so that sequences 
 % in a mini-batch have a similar length. The following figure shows the effect 
 % of padding sequences before and after sorting data.
-
-
 
 %Get the sequence lengths for each observation.
 
@@ -90,8 +90,8 @@ solvername="adam";
 options = trainingOptions(solvername, ...
     'InitialLearnRate', lr, ...
     'LearnRateSchedule','piecewise', ...
-    'LearnRateDropFactor',0.75, ...
-    'LearnRateDropPeriod',2, ...
+    'LearnRateDropFactor',0.5, ...
+    'LearnRateDropPeriod',3, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
