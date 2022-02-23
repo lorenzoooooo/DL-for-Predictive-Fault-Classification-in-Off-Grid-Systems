@@ -43,7 +43,8 @@ while ischar(a)
 %     title(strcat(torre,' sequenze sane a 7 giorni'));
 
     sequenze=normalizzazione(nuova_struct,sequenze,variabili); % sottraggo il valor medio e divido per la deviazione standard 
-    [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);  % Suddivido in Train e Test set
+%     [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g,sequenze);  % Suddivido in Train e Test set
+    [X,Y]=etichette(idx_b,idx_g,sequenze);
     pulizia;
     salvataggio;
     a=fgetl(fileID);

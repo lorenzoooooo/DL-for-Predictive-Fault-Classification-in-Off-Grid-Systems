@@ -1,2 +1,1 @@
-clearvars -except variabili tipo torre addr sqldata sqldata_grezzo name fileID XTr XTs YTr YTs p nuova_struct bozza_dati sequenze idx_b idx_g;
-% clearvars -except variabili tipo torre addr sqldata name fileID XTr XTs YTr YTs XVs YVs p nuova_struct bozza_dati;
+clearvars -except variabili tipo torre addr sqldata sqldata_grezzo name fileID X Y p nuova_struct bozza_dati sequenze idx_b idx_g;
