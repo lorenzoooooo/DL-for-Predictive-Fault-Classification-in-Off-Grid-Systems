@@ -37,7 +37,8 @@ temp_a= find(~ismember(x,a));
 temp_b= find(~ismember(y,b));
 XTrain=[X_sane(temp_a); X_patologiche(temp_b)];
 YTrain=[Y_sane(temp_a); Y_patologiche(temp_b)];
-
+X=[X_sane; X_patologiche];
+Y=[Y_sane; Y_patologiche];
 
 tralicci(1)=[];
 tralicci=nome_cartella(tralicci);
@@ -47,4 +48,4 @@ soglia=string(soglia_bad_mincellv);
 path=strcat('risultati_int\',tralicci,{'\'},features,{'\'},parametri,{'\'},soglia,{'\'});
 path=string(path);
 mkdir(path);
-save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain","path","int_predizione", "lasso", "span", "proporzione","soglia_bad_mincellv", "rapporto","sequenze");
+save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain", "X", "Y","path","int_predizione", "lasso", "span", "proporzione","soglia_bad_mincellv", "rapporto","sequenze");
