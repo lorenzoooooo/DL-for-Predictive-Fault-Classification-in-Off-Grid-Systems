@@ -11,35 +11,31 @@ function [XTr,YTr,XTs,YTs,tr,ts]= etichette(idx_b,idx_g, sequenze)
     tr.good_idx=[];
     ts.bad_idx=[];
     ts.good_idx=[];
-    global proporzione quota_vs;
+    global proporzione rapporto;
     %passo gli indici delle sequenze che identifico come patologiche e come sane
     i_bad=[idx_b];
     i_good=[idx_g];
 
+
     % nel caso in cui siano presenti sequenze negative e positive per una data torre
     if ~isempty(i_bad)                                  % spartisco gli indici delle sequenze patologiche tra train e test
-        pari=mod(i_bad(:),2)==0;
-        disp=mod(i_bad(:),2)~=0;
-        tr.bad_idx=[i_bad(pari)];                       % TrSet prende le sequenze patologiche con indice dispari
-        ts.bad_idx=[i_bad(disp)];                       % TsSet prende le sequenze patologiche con indice pari
-       % vs.bad_idx=randsample(ts.bad_idx,ceil(size(ts.bad_idx,2)/quota_vs));
+        ts.bad_idx=randsample(i_bad,round(rapporto*size(i_bad,2)));
+        temp= find(~ismember(i_bad,ts.bad_idx));
+        tr.bad_idx=i_bad(temp);
         if ~isempty(i_good)                             % spartisco gli indici delle sequenze sane tra train e test
-            pari=mod(i_good(:),2)==0;
-            disp=mod(i_good(:),2)~=0;
-            tr.good_idx=[i_good(pari)];                 % TrSet prende le sequenze sane con indice dispari
-            ts.good_idx=[i_good(disp)];                 % TsSet prende le sequenze sane con indice pari
+            ts.good_idx=randsample(i_good,round(rapporto*size(i_good,2)));
+            temp= find(~ismember(i_good,ts.good_idx));
+            tr.good_idx=i_good(temp);
             if size(tr.good_idx,2)>proporzione*size(tr.bad_idx,2) && size(ts.good_idx,2)>proporzione*size(ts.bad_idx,2)
                 tr.good_idx=randsample(tr.good_idx,proporzione*size(tr.bad_idx,2));
                 ts.good_idx=randsample(ts.good_idx,proporzione*size(ts.bad_idx,2));
             end
-           % vs.good_idx=randsample(ts.good_idx,ceil(size(ts.good_idx,2)/quota_vs));
         end
     else
         if ~isempty(i_good)
-            pari=mod(i_good(:),2)==0;
-            disp=mod(i_good(:),2)~=0;
-            tr.good_idx=[i_good(pari)];                 %TrSet prende le sequenze sane con indice dispari
-            ts.good_idx=[i_good(disp)];                 %TsSet prende le sequenze sane con indice pari
+            ts.good_idx=randsample(i_good,round(rapporto*size(i_good,2)));
+            temp= find(~ismember(i_good,ts.good_idx));
+            tr.good_idx=i_good(temp);
             tr.good_idx=randsample(tr.good_idx,proporzione);
             ts.good_idx=randsample(ts.good_idx,proporzione);
         end
