@@ -1,22 +1,21 @@
-% global tipo name torre;
-% name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
+function [sqldata, bozza_dati, p, nuova_struct]=init(sqldata_grezzo)
+global tipo name torre;
+name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
 load(name,name);
 ref=eval(name);
-% torre=input('numero della torre preceduto da t:','s');
-% if name == "var"
-%     tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
-%     if not(isfolder(strcat(tipo,{'\'},{torre})))
-%         mkdir(string(strcat(tipo,{'\'},{torre})));
-%     end
-% elseif name == "var_iotbox"
-%     tipo="iotbox";
-%     if not(isfolder(strcat(tipo,{'\'},{torre})))
-%         mkdir(string(strcat(tipo,{'\'},{torre})));
-%     end
-% end
-if exist('sqldata_grezzo','var') ==0
-    sqldata_grezzo=sqldata;
+torre=input('numero della torre preceduto da t:','s');
+if name == "var"
+    tipo=input('Se è un digil puro scrivi digil senno scrivi iotbox-digil:','s');
+    if not(isfolder(strcat(tipo,{'\'},{torre})))
+        mkdir(string(strcat(tipo,{'\'},{torre})));
+    end
+elseif name == "var_iotbox"
+    tipo="iotbox";
+    if not(isfolder(strcat(tipo,{'\'},{torre})))
+        mkdir(string(strcat(tipo,{'\'},{torre})));
+    end
 end
+sqldata=sqldata_grezzo;
 switch torre
     case "t13008"
         t=find(sqldata{:,1}=="2021-08-11 00:08:52.0",1);
@@ -41,8 +40,14 @@ count = transpose(sqldata{:,2});
 codice = transpose(sqldata{:,3});
 diag= transpose(sqldata{:,4});
 bozza_dati = {time;count;codice;diag};
-clearvars time count codice diag;
 
+% time = datetime(sqldata_grezzo{:,1});
+% time = convertTo(time,'excel');
+% time = transpose(time);
+% count = transpose(sqldata_grezzo{:,2});
+% codice = transpose(sqldata_grezzo{:,3});
+% diag= transpose(sqldata_grezzo{:,4});
+% bozza_dati= {time;count;codice;diag};
 %%
 d=[datetime(2021,11,27,01,15,0), datetime(2021,11,27,01,30,00)];
 d=convertTo(d,'excel');
