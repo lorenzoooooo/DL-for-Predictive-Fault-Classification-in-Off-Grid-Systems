@@ -10,7 +10,6 @@ numHiddenUnits =20;
 numClasses = 2;
 maxEpochs = 8;
 miniBatchSize = 53;
-miniBatchSizets = 53;
 lr=0.04;
 
 layers = [ ...
@@ -66,8 +65,8 @@ a=[];
             net = trainNetwork(trainX,trainY,layers,options);
 %Test
             YPred(cv.test(i),z) = classify(net,testX, ...
-            'MiniBatchSize',miniBatchSizets, ...
             'SequenceLength','longest');
+            
             a(i,1)=numel(find(trainY=='0'));
             a(i,2)=numel(find(testY=='0'));
         end
