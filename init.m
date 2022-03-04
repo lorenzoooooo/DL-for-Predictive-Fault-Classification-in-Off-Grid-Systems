@@ -20,6 +20,8 @@ switch torre
     case "t13008"
         t=find(sqldata{:,1}=="2021-08-11 00:08:52.0",1);
         sqldata([1:t-1],:)=[];
+        t=find(sqldata{:,1}=="2022-01-07 00:09:14.0",1);
+        sqldata([t:end],:)=[];
     case "t1025"
         t=find(sqldata{:,1}=="2021-07-02 00:09:27.0",1);
         sqldata([1:t-1],:)=[];
@@ -84,11 +86,11 @@ for i=1:size(ref,1)
 end
 
 
-for i=1:size(coord,1)
-    figure;
-%     plot(p{i,1}.time,p{i,1}.value,'r');
-%     hold on;
-    plot(coord{i,1}.time, coord{i,1}.value,'b');
-    title(coord{i,1}.name);
-%     hold off;
-end
+% for i=1:size(coord,1)
+%     figure;
+% %     plot(p{i,1}.time,p{i,1}.value,'r');
+% %     hold on;
+%     plot(coord{i,1}.time, coord{i,1}.value,'b');
+%     title(coord{i,1}.name);
+% %     hold off;
+% end
