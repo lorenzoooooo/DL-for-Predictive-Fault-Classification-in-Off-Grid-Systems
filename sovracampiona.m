@@ -1,9 +1,6 @@
 function coord=sovracampiona(coord,final_freq)
 
-ds=[datetime(2021,11,27,01,24,06), datetime(2021,11,27,01,24,07)];
-ds=convertTo(ds,'excel');
-ds=ds(2)-ds(1);
-
+ds=1/86400; % 1 secondo
 % [x, index] = unique(x);
 x=coord.time;
 y=coord.value;

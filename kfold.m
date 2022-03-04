@@ -2,15 +2,15 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\3_1_1_3_0.25\3200\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_1_3_0.25\3200\dataset'];
 load(dataset_path, 'X', 'Y','path');
 
-inputSize = 5;
-numHiddenUnits =25;
+inputSize = 4;
+numHiddenUnits =20;
 numClasses = 2;
-maxEpochs = 15;
-miniBatchSize = 36;
-miniBatchSizets = 12;
+maxEpochs = 8;
+miniBatchSize = 53;
+miniBatchSizets = 53;
 lr=0.04;
 
 layers = [ ...
@@ -24,20 +24,21 @@ options = trainingOptions('adam', ...
     'InitialLearnRate', lr, ...
     'LearnRateSchedule','piecewise', ...
     'LearnRateDropFactor',0.5, ...
-    'LearnRateDropPeriod',3, ...
+    'LearnRateDropPeriod',2, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
-    'Shuffle','once', ...
+    'Shuffle','never', ...
     'Verbose',0);
 %     'Plots','training-progress');
 
 %%
 n_runs=2;
-k_fold=3;
+k_fold=4;
 testX={};
+a=[];
  for z=1:n_runs
         fprintf('--- RUN %i / %i ---\n', z, n_runs);
         rng(z,'Threefry');
@@ -67,6 +68,8 @@ testX={};
             YPred(cv.test(i),z) = classify(net,testX, ...
             'MiniBatchSize',miniBatchSizets, ...
             'SequenceLength','longest');
+            a(i,1)=numel(find(trainY=='0'));
+            a(i,2)=numel(find(testY=='0'));
         end
 %accuracy    
         [cm(:,:,z),order]=confusionmat(Y,YPred(:,z),'Order',categories(Y));     
@@ -98,11 +101,7 @@ fprintf('\nOverall classification error: %.2f%% %c %.2f%%\n\n', err_avg,char(177
 
 %% salvataggio
 
-if options.LearnRateSchedule=="none"  
-    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(round(acc,2))));
-else
-    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc_avg/100,2)),'_kfold'));
-end
+file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc_avg/100,2)),'_kfold','_',string(n_runs),'_',string(k_fold)));
 path_def=strcat(path,{'\'},file,{'\'});
 mkdir(path_def);
 save(strcat(path_def,'risultati'));

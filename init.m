@@ -49,15 +49,9 @@ bozza_dati = {time;count;codice;diag};
 % diag= transpose(sqldata_grezzo{:,4});
 % bozza_dati= {time;count;codice;diag};
 %%
-d=[datetime(2021,11,27,01,15,0), datetime(2021,11,27,01,30,00)];
-d=convertTo(d,'excel');
-std_freq=d(2)-d(1);             % 15 min
-d=[datetime(2021,11,27,01,0,0), datetime(2021,11,27,01,20,00)];
-d=convertTo(d,'excel');
-max_timeout=d(2)-d(1);          % 20 min
-d=[datetime(2021,11,27,01,19,0), datetime(2021,11,27,01,20,00)];
-d=convertTo(d,'excel');
-final_freq=d(2)-d(1);           % 1 min
+std_freq=60*15/86400;             % 15 min
+max_timeout=(60*20)/86400;          % 20 min
+final_freq=60/86400;            % 1 min
 
 coord=cell(size(ref,1),1);
 for i=1:size(ref,1)
@@ -74,6 +68,9 @@ for i=1:size(coord,1)
     p{i,1}=coord{i,1};
     p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
     coord{i,1} = traslazione(coord{i,1},max_timeout, std_freq);
+%     figure;
+%     plot(coord{i,1}.time,coord{i,1}.value);
+%     title(ref{i,1});
     coord{i,1} = sovracampiona(coord{i,1},final_freq);
 end
 
@@ -86,13 +83,12 @@ for i=1:size(ref,1)
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
 
-% 
-% for i=1:size(coord,1)
-%     figure;
-% %     plot(p{i,1}.time,p{i,1}.value,'r');
-% %     hold on;
-%     plot(coord{i,1}.time, coord{i,1}.value,'b');
-%     title(coord{i,1}.name);
-% %     hold off;
-% end
- 
+
+for i=1:size(coord,1)
+    figure;
+%     plot(p{i,1}.time,p{i,1}.value,'r');
+%     hold on;
+    plot(coord{i,1}.time, coord{i,1}.value,'b');
+    title(coord{i,1}.name);
+%     hold off;
+end

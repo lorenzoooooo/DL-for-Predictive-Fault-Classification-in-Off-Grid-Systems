@@ -2,15 +2,15 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1025_t1021\mincellvoltage_panelpower_soc_totbatterycurrent\3_1_1_3_0.25\3200\dataset'];
-load(dataset_path, 'Xt*', 'Yt*','path');
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_7_3_0.25\3200\dataset'];
+load(dataset_path, 'XT*', 'YT*','path');
 
 inputSize = 4;
-numHiddenUnits =25;
+numHiddenUnits =20;
 numClasses = 2;
-maxEpochs = 15;
-miniBatchSize = 40;
-miniBatchSizets = 18;
+maxEpochs = 8;
+miniBatchSize =27;
+miniBatchSizets = 9;
 lr=0.04;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
@@ -91,7 +91,7 @@ options = trainingOptions('adam', ...
     'InitialLearnRate', lr, ...
     'LearnRateSchedule','piecewise', ...
     'LearnRateDropFactor',0.5, ...
-    'LearnRateDropPeriod',3, ...
+    'LearnRateDropPeriod',2, ...
     'ExecutionEnvironment','cpu', ...
     'GradientThreshold',1, ...
     'MaxEpochs',maxEpochs, ...
@@ -141,7 +141,7 @@ YPred = classify(net,XTest, ...
 acc = sum(YPred == YTest)./numel(YTest)
 figure;
 conf_chart=confusionchart(YTest,YPred);
-
+conf_chart.RowSummary = 'row-normalized';
 %% salvataggio
 currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
 if options.LearnRateSchedule=="none"  
