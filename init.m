@@ -18,7 +18,7 @@ end
 sqldata=sqldata_grezzo;
 switch torre
     case "t13008"
-        t=find(sqldata{:,1}=="2021-08-11 00:08:52.0",1);
+        t=find(sqldata{:,1}=="2021-08-11 00:38:53.0",1);
         sqldata([1:t-1],:)=[];
         t=find(sqldata{:,1}=="2022-01-07 00:09:14.0",1);
         sqldata([t:end],:)=[];
@@ -28,12 +28,12 @@ switch torre
     case "t16399"
         t=find(sqldata{:,1}=="2021-09-23 00:07:31.0",1);
         sqldata([1:t-1],:)=[];
-        t1=find(sqldata{:,1}=="2021-11-18 16:08:53.0",1);
-        t2=find(sqldata{:,1}=="2021-11-18 16:08:54.0",1,'last');
-        sqldata([t1:t2],:)=[];
-    case "t7286"
-        t=find(sqldata{:,1}=="2021-12-27 04:45:30.0",1);
-        sqldata([t:end],:)=[];
+        t=sqldata{:,1}=="2021-11-18 16:08:53.0";
+%         t2=find(sqldata{:,1}=="2021-11-18 16:08:54.0",1,'last');
+        sqldata(t,:)=[];
+%     case "t7286"
+%         t=find(sqldata{:,1}=="2021-12-27 04:45:30.0",1);
+%         sqldata([t:end],:)=[];
 end
 time = datetime(sqldata{:,1});
 time = convertTo(time,'excel');
@@ -70,9 +70,6 @@ for i=1:size(coord,1)
     p{i,1}=coord{i,1};
     p{i,1}.time=datetime(p{i,1}.time,'convertfrom','excel');
     coord{i,1} = traslazione(coord{i,1},max_timeout, std_freq);
-%     figure;
-%     plot(coord{i,1}.time,coord{i,1}.value);
-%     title(ref{i,1});
     coord{i,1} = sovracampiona(coord{i,1},final_freq);
 end
 
@@ -84,6 +81,7 @@ for i=1:size(ref,1)
     p{i,1}.name=coord{i,1}.name;
     nuova_struct.(coord{i,1}.name)=coord{i,1}.value;
 end
+nuova_struct.totbatterycurrent=nuova_struct.batterycurrentin-nuova_struct.batterycurrentout;
 
 
 % for i=1:size(coord,1)
