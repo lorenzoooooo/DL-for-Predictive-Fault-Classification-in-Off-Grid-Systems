@@ -2,14 +2,14 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_1_3_0.25\3200\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_3_3_0.25\3200\dataset'];
 load(dataset_path, 'X', 'Y','path');
 
-inputSize = 4;
-numHiddenUnits =20;
+inputSize = 5;
+numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 8;
-miniBatchSize = 53;
+miniBatchSize =31;
 lr=0.04;
 
 layers = [ ...
@@ -29,12 +29,12 @@ options = trainingOptions('adam', ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
-    'Shuffle','never', ...
+    'Shuffle','once', ...
     'Verbose',0);
 %     'Plots','training-progress');
 
 %%
-n_runs=2;
+n_runs=10;
 k_fold=4;
 testX={};
 a=[];
