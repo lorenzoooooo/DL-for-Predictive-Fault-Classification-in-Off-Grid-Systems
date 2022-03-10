@@ -2,15 +2,14 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_7_3_0.25\3200\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_7_1_0.25\3200\dataset'];
 load(dataset_path, 'XT*', 'YT*','path');
 
-inputSize = 4;
-numHiddenUnits =20;
+inputSize = 5;
+numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 8;
-miniBatchSize =27;
-miniBatchSizets = 9;
+miniBatchSize =23;
 lr=0.04;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
@@ -97,7 +96,7 @@ options = trainingOptions('adam', ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
-    'Shuffle','once', ...
+    'Shuffle','never', ...
     'Verbose',0, ...
     'Plots','training-progress');   
 
@@ -132,7 +131,6 @@ YTest = YTest(idx);
 % as the training data, specify the sequence length to be |'longest'|.
 
 YPred = classify(net,XTest, ...
-    'MiniBatchSize',miniBatchSizets, ...
     'SequenceLength','longest');
 
 %%
