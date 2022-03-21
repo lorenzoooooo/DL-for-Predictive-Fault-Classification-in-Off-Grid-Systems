@@ -45,7 +45,7 @@ tralicci=nome_cartella(tralicci);
 features=nome_cartella(variabili.nome);
 parametri=strcat(string(lasso),'_',string(span),'_',string(int_predizione),'_',string(proporzione),'_',string(rapporto));                                                            %,'_',string(quota_vs)
 soglia=string(soglia_bad_mincellv);
-path=strcat('risultati_int\',tralicci,{'\'},features,{'\'},parametri,{'\'},soglia,{'\'});
+path=strcat('risultati_int\',tralicci,{'\'},features,{'\'},parametri,{'\'});
 path=string(path);
 mkdir(path);
 save(strcat(path,'dataset'),"YTest","YTrain","XTest","XTrain", "X", "Y","path","int_predizione", "lasso", "span", "proporzione","soglia_bad_mincellv", "rapporto","sequenze");

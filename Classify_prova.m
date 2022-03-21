@@ -2,14 +2,14 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_7_1_0.25\3200\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\1_1_7_3_0.25\3200\dataset'];
 load(dataset_path, 'XT*', 'YT*','path');
 
-inputSize = 5;
+inputSize = 4;
 numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 8;
-miniBatchSize =23;
+miniBatchSize =30;
 lr=0.04;
 %%
 % Visualize the first time series in a plot. Each line corresponds to a feature.
@@ -96,7 +96,7 @@ options = trainingOptions('adam', ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
-    'Shuffle','never', ...
+    'Shuffle','every-epoch', ...
     'Verbose',0, ...
     'Plots','training-progress');   
 
@@ -145,7 +145,7 @@ currentfig = findall(groot, 'Tag', 'NNET_CNN_TRAININGPLOT_UIFIGURE');
 if options.LearnRateSchedule=="none"  
     file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(round(acc,2))));
 else
-    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2)),'_piecewise'));
+    file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc,2)),'_piecewise','_',string(options.Shuffle)));
 end
 path_def=strcat(path,{'\'},file,{'\'});
 mkdir(path_def);
