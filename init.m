@@ -1,5 +1,6 @@
 function [sqldata, bozza_dati, p, nuova_struct]=init(sqldata_grezzo)
 global tipo name torre;
+
 name=input('se la box NON è munita di stazione meteo scrivi var_iotbox, sennò var:','s');
 load(name,name);
 ref=eval(name);

@@ -3,19 +3,18 @@
 % sequenza e l'altra e int_predizione è l'intervallo predittivo in giorni.
 % proporzione è il rapporto tra sequenze patologiche e sane nel dataset (se
 % è 2 allora avrò che per ogni sequenza patologica ne ho due sane).
-% Quota_vs si riferisce alla frazione di test set che viene uat anche per
+% Quota_vs si riferisce alla frazione di test set che viene usato anche per
 % il validation set.
-% Torre è l'id della torre, name dice se la stazione contiene la stazione 
+% Torre è l'id della torre, name dice se la l'apparato contiene la stazione 
 % meteo o meno e tipo differenzia tra digil pura e digil_iotbox
  
 global lasso span int_predizione soglia_bad_mincellv proporzione rapporto;
-lasso=3;
+lasso=1;
 span=1;
 int_predizione=1;
-proporzione=3;              
+proporzione=1;              
 soglia_bad_mincellv=3200;
-rapporto=1/4;
-
+rapporto=0.25;
 
 % global soglia_bad_maxcellv soglia_good_mincellv soglia_good_maxcellv quota_vs;
 % soglia_good_mincellv=3350;
@@ -29,47 +28,37 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili.nome= ["min cell voltage";"panel power";"tot battery current"];             % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
-    [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);  % suddivido in sequenze di 3 giorni
-    [idx_b,idx_g,c]=sospetti(sequenze);                                   % identifico le sequenze patologiche
-
-%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze patologiche'));
-%     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze sane'));
-%     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
-%     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze sane a 7 giorni'));
-
-    sequenze=normalizzazione(nuova_struct,sequenze,variabili); % sottraggo il valor medio e divido per la deviazione standard 
+    variabili.nome= ["min cell voltage";"panel power"];                     % "output current mppt" ;"soc";"irradiation";"tot battery current"          % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
+    [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);    % suddivido in sequenze di lasso giorni
+    [idx_b,idx_g,c]=sospetti(sequenze);                                     % identifico le sequenze patologiche 
+    sequenze=normalizzazione(nuova_struct,sequenze,variabili);              % sottraggo il valor medio e divido per la deviazione standard
     [X,Y]=etichette(idx_b,idx_g,sequenze);
     pulizia;
-    salvataggio;
+    salvataggio;  
     a=fgetl(fileID);
 end
 fclose(fileID);
 dataset1();
 
-%     nuova_struct.totbatterycurrent=nuova_struct.batterycurrentin-nuova_struct.batterycurrentout;
+%     figure;
+%     for i=1:size(sequenze,1)
+%         k=find(sequenze{i}.mincellvoltage<3070);
+%         if ~isempty(k)
+%             plot(datetime(sequenze{i}.time,'convertfrom','excel'),sequenze{i}.mincellvoltage);
+%             hold on;
+%         end
+%     end
+
 %     figure; plot(nuova_struct.time, nuova_struct.panelpower);
 % plot(nuova_struct.time, nuova_struct.irradiation);
 %     title(strcat("bilancio correnti batteria ",string(torre)));
 
-%     grafico(sequenze,variabili);
 %     close all;
-%     b=idx_g; figure; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'g'); hold on; end
-%         title(strcat(torre,' sequenze sane')); hold off
-%     b=idx_b; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage,'r'); hold on; end
-%         title(strcat(torre,' sequenze patologiche'));
-%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
-%     title(strcat(torre,' sequenze patologiche'));
-%     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.panelpower); hold on; end
-%     title(strcat(torre,' sequenze sane'));
-% 
-% 
-% 
+%     b=c{1}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze patologiche di riferimento'));
+%     b=c{2}; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
+%     title(strcat(torre,' sequenze sane di riferimento'));
 %     b=idx_b; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze patologiche a 7 giorni'));
+%     title(strcat(torre,' sequenze patologiche predittive'));
 %     b=idx_g; figure; hold off; for i=1:size(b,2) plot(datetime(sequenze{b(i)}.time,'ConvertFrom','excel'),sequenze{b(i)}.mincellvoltage); hold on; end
-%     title(strcat(torre,' sequenze sane a 7 giorni'));
+%     title(strcat(torre,' sequenze sane predittive'));
