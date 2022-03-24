@@ -2,14 +2,14 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_3_3_0.25\3200\dataset'];
+dataset_path=['risultati_int\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\1_1_1_1_0.25\dataset'];
 load(dataset_path, 'X', 'Y','path');
 
-inputSize = 5;
+inputSize = 2;
 numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 8;
-miniBatchSize =31;
+miniBatchSize =9;
 lr=0.04;
 
 layers = [ ...
@@ -29,11 +29,10 @@ options = trainingOptions('adam', ...
     'MaxEpochs',maxEpochs, ...
     'MiniBatchSize',miniBatchSize, ...
     'SequenceLength','longest', ...
-    'Shuffle','once', ...
+    'Shuffle','every-epoch', ...
     'Verbose',0);
 %     'Plots','training-progress');
 
-%%
 n_runs=10;
 k_fold=4;
 testX={};
@@ -50,7 +49,7 @@ a=[];
             trainY = Y(cv.training(i));
             testX(:,1)= X(cv.test(i),:);
             trainX(:,1) = X(cv.training(i),:);
-%Obtain Sequence length
+% Obtain Sequence length
             numObservations = numel(trainX);
             for j=1:numObservations
                 sequence = trainX{j};
@@ -61,16 +60,16 @@ a=[];
                 sequence = testX{j};
                 sequenceLengthsTest(j) = size(sequence,2);
             end
-%Training
+% Training
             net = trainNetwork(trainX,trainY,layers,options);
-%Test
+% Test
             YPred(cv.test(i),z) = classify(net,testX, ...
             'SequenceLength','longest');
             
             a(i,1)=numel(find(trainY=='0'));
             a(i,2)=numel(find(testY=='0'));
         end
-%accuracy    
+% accuracy    
         [cm(:,:,z),order]=confusionmat(Y,YPred(:,z),'Order',categories(Y));     
         figure;
         cm_c= confusionchart(cm(:,:,z),order);
@@ -100,7 +99,7 @@ fprintf('\nOverall classification error: %.2f%% %c %.2f%%\n\n', err_avg,char(177
 
 %% salvataggio
 
-file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc_avg/100,2)),'_kfold','_',string(n_runs),'_',string(k_fold)));
+file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc_avg/100,2)),'_kfold','_',string(n_runs),'_',string(k_fold),'_',string(options.Shuffle),'_',string(miniBatchSize)));
 path_def=strcat(path,{'\'},file,{'\'});
 mkdir(path_def);
 save(strcat(path_def,'risultati'));
