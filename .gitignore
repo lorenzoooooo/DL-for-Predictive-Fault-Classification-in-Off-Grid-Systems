@@ -5,6 +5,6 @@ schemer*
 digil/
 iotbox/
 iotbox-digil/
-risultati/*
 risultati_int/*
-risultati_7_15/*
+risultati_3fc/*
+risultati_2bilstm/*
