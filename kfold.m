@@ -16,10 +16,7 @@ lr=0.04;
 layers = [ ...
     sequenceInputLayer(inputSize)
     bilstmLayer(numHiddenUnits,'OutputMode','last')
-    fullyConnectedLayer(19)
-    reluLayer
-    fullyConnectedLayer(10)
-    reluLayer
+    bilstmLayer(numHiddenUnits,'OutputMode','last')
     fullyConnectedLayer(numClasses)
     softmaxLayer
     classificationLayer];
