@@ -3,7 +3,8 @@ clear;
 
 %% Load
 input('controlla che stai usando il giusto dataset!');
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\3_1_7_3_0.25\dataset'];
+% dataset_path=['dataset\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\1_1_7_3_0.25'];
+dataset_path=['dataset\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_1_3_0.25'];
 load(dataset_path, 'XT*', 'YT*','path');
 
 %% Parametri della rete
@@ -34,7 +35,8 @@ layers = [ ...
     fullyConnectedLayer(numClasses)
     softmaxLayer
     classificationLayer]
-%% Training options
+
+% Training options
 
 options = trainingOptions('adam', ...
     'InitialLearnRate', lr, ...

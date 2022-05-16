@@ -1,7 +1,7 @@
 %% Query
-input('ricordati di cambiare il numero della torre nella query!');
-query=input('scegli query:\n','s');
-eval(query);
+% input('ricordati di cambiare il numero della torre nella query!');
+% query=input('scegli query:\n','s');
+% eval(query);
 %% Prima formattazione dei dati
 global tipo name torre;
 [sqldata, bozza_dati, p, nuova_struct]=init(sqldata_grezzo);

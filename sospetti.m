@@ -2,11 +2,12 @@ function [idx_b, idx_g,a] = sospetti (sequenze)
 global int_predizione span proporzione;
 global soglia_bad_mincellv; % soglia_good_mincellv soglia_bad_maxcellv soglia_good_maxcellv;
 
-%% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
+% Etichetto le sequenze patologiche e sane. Patologiche sono quelle che precedono i 15 giorni prima dell'evento patologico
 idx_b=zeros(1,0);
 idx_g=zeros(1,0);
 
-%% Prendo solo le sequenze a 7 giorni precisi da tutti gli eventi di guasto. Ossia se ho sequenze consecutive in bad.idx le tengo tutte e prendo per ognuna la sequenza 7 giorni prima.
+% Prendo solo le sequenze a 7 giorni precisi da tutti gli eventi di guasto. Ossia se ho sequenze consecutive in bad.idx le tengo tutte e prendo per ognuna la sequenza 7 giorni prima.
+
 if isfield(sequenze{1,1},'mincellvoltage')
     mincellv.bad.soglia=soglia_bad_mincellv;    % soglia critica patologica
     mincellv.bad.idx=zeros(1,0);
@@ -23,7 +24,7 @@ if isfield(sequenze{1,1},'mincellvoltage')
     a{2}=mincellv.good.idx;
 end
 
-%% Prendo le sequenze dalla prima fino all'ultima di bad.mincellv
+% Prendo le sequenze dalla prima fino all'ultima di bad.mincellv
 z=[];
 for i=1:size(sequenze,1)
     z=[z sequenze{i}.time(1)];
@@ -65,7 +66,7 @@ if size(idx_g,2)>proporzione*size(idx_b,2)
 end
 
 
-%% in questo modo prendo solo le sequenze a 7 giorni precisi dal primo evento di guasto. Ossia se ho sequenze consecutive in bad.idx tengo solo la prima e poi prenderò la sequenza 7 giorni prima di questa.
+% in questo modo prendo solo le sequenze a 7 giorni precisi dal primo evento di guasto. Ossia se ho sequenze consecutive in bad.idx tengo solo la prima e poi prenderò la sequenza 7 giorni prima di questa.
 % if isfield(sequenze{1,1},'mincellvoltage')
 
 %     mincellv.bad.soglia=soglia_bad_mincellv;                                         % soglia critica patologica

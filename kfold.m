@@ -2,11 +2,11 @@ close all force;
 clear;
 
 input('controlla che stai usando il giusto dataset!');
-% dataset_path=['risultati_int\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\3_1_1_3_0.25\dataset'];
-dataset_path=['risultati_int\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_7_3_0.25\3200\dataset'];
+% dataset_path=['dataset\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\1_1_7_3_0.25'];
+dataset_path=['dataset\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\3_1_1_3_0.25'];
 load(dataset_path, 'X', 'Y','path');
 
-inputSize = 5;
+inputSize = 2;
 numHiddenUnits =15;
 numClasses = 2;
 maxEpochs = 8;
@@ -16,7 +16,10 @@ lr=0.04;
 layers = [ ...
     sequenceInputLayer(inputSize)
     bilstmLayer(numHiddenUnits,'OutputMode','last')
-    bilstmLayer(numHiddenUnits,'OutputMode','last')
+    fullyConnectedLayer(19)
+    reluLayer
+    fullyConnectedLayer(10)
+    reluLayer
     fullyConnectedLayer(numClasses)
     softmaxLayer
     classificationLayer];
@@ -95,8 +98,8 @@ fprintf('\n  Overall classification error: %.2f%% %c %.2f%%\n\n', err_avg,char(1
 
 %% salvataggio
 file=strcat(strcat(string(day(datetime)),'-',string(month(datetime)),'_',string(numHiddenUnits),'_',string(maxEpochs),'_',string(lr),'_',string(options.LearnRateDropFactor),'_',string(round(acc_avg/100,2)),'_kfold','_',string(n_runs),'_',string(k_fold),'_',string(miniBatchSize)));
-% path="risultati_3fc\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\3_1_1_3_0.25\";
-path="risultati_3fc\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation_totbatterycurrent\1_1_7_3_0.25\";
+path="risultati_3fc\t13008_t16399_t1059_t1021_t1025\mincellvoltage_panelpower\1_1_7_3_0.25\";
+% path="risultati_3fc\t13008_t16399_t1059_t1021\mincellvoltage_panelpower_soc_irradiation\1_1_7_3_0.25\";
 path_def=strcat(path,{'\'},file,{'\'});
 mkdir(path_def);
 save(strcat(path_def,'risultati'));

@@ -9,10 +9,11 @@
 % meteo o meno e tipo differenzia tra digil pura e digil_iotbox
  
 global lasso span int_predizione soglia_bad_mincellv proporzione rapporto;
-lasso=1;
+
+lasso=3;
 span=1;
 int_predizione=1;
-proporzione=1;              
+proporzione=3;              
 soglia_bad_mincellv=3200;
 rapporto=0.25;
 
@@ -28,11 +29,11 @@ fileID = fopen('mat.txt','r');
 a=fgetl(fileID);
 while ischar(a)
     load(a);
-    variabili.nome= ["min cell voltage";"panel power"];                     % "output current mppt" ;"soc";"irradiation";"tot battery current"          % variabili usate nelle sequenze                                                                             %; "consumer current" "max cell voltage" ;"soc";"irradiation"
+    variabili.nome= ["min cell voltage";"panel power";"soc";"irradiation"];                     % varibili usate nelle sequenze  % ;"soc";"irradiation";"totbatterycurrent";"outputcurrentmppt"
     [sequenze, variabili]=estrazione_sequenze(p,nuova_struct,variabili);    % suddivido in sequenze di lasso giorni
     [idx_b,idx_g,c]=sospetti(sequenze);                                     % identifico le sequenze patologiche 
     sequenze=normalizzazione(nuova_struct,sequenze,variabili);              % sottraggo il valor medio e divido per la deviazione standard
-    [X,Y]=etichette(idx_b,idx_g,sequenze);
+    [X,Y]=etichette(idx_b,idx_g,sequenze);                                  % creo il dataset relat ad un dato traliccio
     pulizia;
     salvataggio;  
     a=fgetl(fileID);

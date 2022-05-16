@@ -1,3 +1,4 @@
+
 function [X,Y]= etichette(idx_b,idx_g, sequenze)
 X={};
 Y={};

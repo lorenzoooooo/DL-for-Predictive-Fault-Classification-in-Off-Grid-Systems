@@ -21,7 +21,7 @@ switch torre
     case "t13008"
         t=find(sqldata{:,1}=="2021-08-11 00:38:53.0",1);
         sqldata([1:t-1],:)=[];
-        t=find(sqldata{:,1}=="2022-01-07 00:09:14.0",1);
+        t=find(sqldata{:,1}=="2022-01-08 00:09:14.0",1);
         sqldata([t:end],:)=[];
     case "t1025"
         t=find(sqldata{:,1}=="2021-07-02 00:09:27.0",1);
