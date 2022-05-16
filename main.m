@@ -34,8 +34,8 @@ while ischar(a)
     [idx_b,idx_g,c]=sospetti(sequenze);                                     % identifico le sequenze patologiche 
     sequenze=normalizzazione(nuova_struct,sequenze,variabili);              % sottraggo il valor medio e divido per la deviazione standard
     [X,Y]=etichette(idx_b,idx_g,sequenze);                                  % creo il dataset relat ad un dato traliccio
-    pulizia;
-    salvataggio;  
+%     pulizia;
+%     salvataggio;  
     a=fgetl(fileID);
 end
 fclose(fileID);
