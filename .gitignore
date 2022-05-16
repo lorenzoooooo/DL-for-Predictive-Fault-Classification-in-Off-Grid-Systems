@@ -8,3 +8,6 @@ iotbox-digil/
 risultati_int/*
 risultati_3fc/*
 risultati_2bilstm/*
+dataset/*
+risultati_alternativi/*
+*.zip
